@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   return (
     <footer className="bg-[#F4F4F5] w-full pt-16 pb-8 border-t border-[#E4E4E7]">
-      <div className="max-w-[1280px] mx-auto px-12">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-12">
         <div className="flex flex-col gap-12">
           {/* Top Section */}
-          <div className="flex justify-between items-end">
-            <div className="flex flex-col gap-8">
-              <h2 className="text-[#18181B] font-heading text-2xl font-bold">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 md:gap-0">
+            <div className="flex flex-col gap-6 md:gap-8">
+              <h2 className="text-[#18181B] font-heading text-xl md:text-2xl font-bold">
                 PROCESADORA PERÚ SAC
               </h2>
-              <div className="flex gap-8">
+              <div className="flex flex-col md:flex-row gap-4 md:gap-8">
                 <Link to="/privacidad" className="text-[#71717A] font-body text-xs hover:text-[#C2410C] transition-colors">
                   POLÍTICA DE PRIVACIDAD
                 </Link>
@@ -27,7 +27,7 @@ export default function Footer() {
 
           {/* Bottom Section */}
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between items-center w-full">
+            <div className="flex flex-col-reverse md:flex-row justify-between items-start md:items-center w-full gap-6 md:gap-0">
               <p className="text-[#71717A] font-body text-xs">
                 © 2024 PROCESADORA PERÚ SAC. LIDERAZGO AGRO-INDUSTRIAL.
               </p>

@@ -34,25 +34,25 @@ export default function ValueProposition() {
   };
 
   return (
-    <section className="bg-[#F6F3F2] py-32 w-full">
-      <div className="max-w-[1280px] mx-auto px-12">
+    <section className="bg-[#F6F3F2] py-16 md:py-32 w-full">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-12">
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-12"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
           {propositions.map((prop, index) => (
-            <motion.div key={index} variants={itemVariants} className="flex flex-col gap-6">
+            <motion.div key={index} variants={itemVariants} className="flex flex-col gap-4 md:gap-6">
               <div className="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center">
                 {prop.icon}
               </div>
               <div>
-                <h3 className="text-[#1B1C1C] font-heading text-2xl font-bold mb-4">
+                <h3 className="text-[#1B1C1C] font-heading text-xl md:text-2xl font-bold mb-2 md:mb-4">
                   {prop.title}
                 </h3>
-                <p className="text-[#554339] font-body text-base leading-relaxed">
+                <p className="text-[#554339] font-body text-sm md:text-base leading-relaxed">
                   {prop.description}
                 </p>
               </div>

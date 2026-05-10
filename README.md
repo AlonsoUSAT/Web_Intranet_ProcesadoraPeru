@@ -1,16 +1,29 @@
-# React + Vite
+# Web Comercial - Procesadora Perú
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma web premium para exportación agroindustrial. Desarrollada con un enfoque Mobile First, asegurando una experiencia fluida y de alta fidelidad visual en cualquier dispositivo.
 
-Currently, two official plugins are available:
+## Stack Tecnológico
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+*   **Framework Principal:** React.js (Vite)
+*   **Estilos:** Tailwind CSS (v4) para diseños responsivos y utilidades rápidas.
+*   **Animaciones:** Framer Motion (transiciones suaves, menús interactivos).
+*   **Navegación:** React Router (SPA).
+*   **Notificaciones:** Sonner (alertas y feedback de usuario modernos).
+*   **Formularios y Validaciones:** Zod y React Hook Form para la gestión de estados y validación estricta de formularios legales (B2B, Libro de Reclamaciones).
 
-## React Compiler
+## Características
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **Diseño 100% Responsive:** Arquitectura adaptativa orientada a dispositivos móviles (Mobile First) sin comprometer la estética premium en resoluciones desktop.
+*   **Internacionalización (i18n):** Preparado para soportar múltiples idiomas.
+*   **Formularios Legales y Comerciales:**
+    *   Libro de Reclamaciones ajustado a la normativa, con validaciones robustas.
+    *   Formulario B2B complejo para cotizaciones de importadores y distribuidores globales.
+*   **Fidelidad Visual Absoluta:** Integración minuciosa de tokens de diseño desde Figma (espaciados asimétricos, bordes, tipografía, glassmorfismo).
 
-## Expanding the ESLint configuration
+## Instalación y Desarrollo Local
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1.  Clonar el repositorio.
+2.  Instalar dependencias: `npm install`
+3.  Iniciar el entorno de desarrollo: `npm run dev`
+
+El servidor se levantará por defecto en `http://localhost:5175`.

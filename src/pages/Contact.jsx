@@ -46,7 +46,7 @@ const InputField = ({ label, register, name, placeholder, error, type = "text", 
       type={type}
       placeholder={placeholder}
       {...register(name)}
-      className={`w-full border ${error ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-2 px-3 text-sm bg-white outline-none focus:border-[#954500] focus:ring-1 focus:ring-[#954500] placeholder:text-[#A1A1AA] transition-all`}
+      className={`w-full border ${error ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500] focus:ring-1 focus:ring-[#954500] placeholder:text-[#A1A1AA] transition-all`}
     />
     {error && <span className="text-red-500 text-[10px] leading-tight">{error.message}</span>}
   </div>
@@ -96,13 +96,13 @@ export default function Contact() {
       <div className="w-full bg-[#FAFAFA] min-h-screen pt-24 pb-0 font-body">
         
         {/* Contenedor del Formulario */}
-        <div className="max-w-[1000px] mx-auto px-6 md:px-12 pb-24">
+        <div className="max-w-[1000px] mx-auto px-6 md:px-12 pb-16 md:pb-24">
           
-          <h1 className="text-[#954500] font-heading text-[32px] md:text-[40px] font-extrabold mb-8 tracking-tight">
+          <h1 className="text-[#954500] font-heading text-[32px] md:text-[40px] font-extrabold mb-8 tracking-tight leading-tight">
             Contacto Procesadora Perú SAC
           </h1>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 md:gap-10">
             
             {/* 1. Contacto & Compañía */}
             <section>
@@ -112,7 +112,7 @@ export default function Contact() {
               </div>
               
               <div className="bg-white border border-[#E4E4E7] rounded-lg p-6 md:p-8 shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 md:gap-y-5">
                   <InputField label="Nombres" name="nombres" register={register} error={errors.nombres} placeholder="e.g. Jane" />
                   <InputField label="Apellidos" name="apellidos" register={register} error={errors.apellidos} placeholder="e.g. Doe" />
                   <InputField label="Título profesional" name="titulo" register={register} error={errors.titulo} placeholder="e.g. Procurement Director" />
@@ -121,7 +121,7 @@ export default function Contact() {
                   
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[#554339] text-xs font-semibold">País</label>
-                    <select {...register('pais')} className={`w-full border ${errors.pais ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-2 px-3 text-sm bg-white outline-none focus:border-[#954500]`}>
+                    <select {...register('pais')} className={`w-full border ${errors.pais ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]`}>
                       <option value="">Seleccione un país...</option>
                       <option value="US">Estados Unidos</option>
                       <option value="EU">Unión Europea</option>
@@ -137,8 +137,8 @@ export default function Contact() {
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[#554339] text-xs font-semibold">Teléfono</label>
                     <div className="flex gap-2">
-                      <input type="text" {...register('prefijo')} className="w-[70px] border border-[#D4D4D8] rounded-[4px] py-2 px-3 text-sm bg-white outline-none text-center" />
-                      <input type="text" {...register('telefono')} placeholder="555-0123" className={`flex-1 border ${errors.telefono ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-2 px-3 text-sm bg-white outline-none focus:border-[#954500]`} />
+                      <input type="text" {...register('prefijo')} className="w-[80px] md:w-[70px] border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-3 text-base md:text-sm bg-white outline-none text-center" />
+                      <input type="text" {...register('telefono')} placeholder="555-0123" className={`flex-1 border ${errors.telefono ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]`} />
                     </div>
                     {(errors.prefijo || errors.telefono) && <span className="text-red-500 text-[10px]">Teléfono requerido</span>}
                   </div>
@@ -157,28 +157,28 @@ export default function Contact() {
 
               <div className="bg-white border border-[#E4E4E7] rounded-lg p-6 md:p-8 shadow-sm flex flex-col md:flex-row gap-8">
                 <div className="flex-1">
-                  <label className="text-[#1B1C1C] text-sm font-bold block mb-3">Tipo de empresa</label>
-                  <div className="flex flex-col gap-2">
+                  <label className="text-[#1B1C1C] text-sm md:text-sm font-bold block mb-4 md:mb-3">Tipo de empresa</label>
+                  <div className="flex flex-col gap-3 md:gap-2">
                     {['Importador', 'Distribuidor', 'Cadena de supermercados', 'Procesador / Industria', 'Otro'].map(type => (
-                      <label key={type} className="flex items-center gap-2 cursor-pointer w-fit">
-                        <input type="radio" value={type} {...register('tipoEmpresa')} className="accent-[#954500] w-3.5 h-3.5" />
-                        <span className="text-[#554339] text-sm">{type}</span>
+                      <label key={type} className="flex items-center gap-3 md:gap-2 cursor-pointer w-fit">
+                        <input type="radio" value={type} {...register('tipoEmpresa')} className="accent-[#954500] w-5 h-5 md:w-4 md:h-4" />
+                        <span className="text-[#554339] text-base md:text-sm">{type}</span>
                       </label>
                     ))}
                   </div>
-                  {errors.tipoEmpresa && <span className="text-red-500 text-[10px] mt-1 block">{errors.tipoEmpresa.message}</span>}
+                  {errors.tipoEmpresa && <span className="text-red-500 text-[10px] mt-2 block">{errors.tipoEmpresa.message}</span>}
                 </div>
 
                 <div className="flex-1 bg-[#F4F4F5] rounded-md p-6 border border-[#E4E4E7] h-fit">
-                  <label className="text-[#1B1C1C] text-sm font-bold block mb-3">¿Ha importado productos agrícolas de Perú anteriormente?</label>
-                  <div className="flex gap-6">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" value="Si" {...register('importadoAntes')} className="accent-[#954500] w-3.5 h-3.5" />
-                      <span className="text-[#554339] text-sm">Sí</span>
+                  <label className="text-[#1B1C1C] text-sm font-bold block mb-4 md:mb-3">¿Ha importado productos agrícolas de Perú anteriormente?</label>
+                  <div className="flex gap-8 md:gap-6">
+                    <label className="flex items-center gap-3 md:gap-2 cursor-pointer">
+                      <input type="radio" value="Si" {...register('importadoAntes')} className="accent-[#954500] w-5 h-5 md:w-4 md:h-4" />
+                      <span className="text-[#554339] text-base md:text-sm">Sí</span>
                     </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" value="No" {...register('importadoAntes')} className="accent-[#954500] w-3.5 h-3.5" />
-                      <span className="text-[#554339] text-sm">No</span>
+                    <label className="flex items-center gap-3 md:gap-2 cursor-pointer">
+                      <input type="radio" value="No" {...register('importadoAntes')} className="accent-[#954500] w-5 h-5 md:w-4 md:h-4" />
+                      <span className="text-[#554339] text-base md:text-sm">No</span>
                     </label>
                   </div>
                 </div>
@@ -192,32 +192,32 @@ export default function Contact() {
                 <h2 className="text-[#954500] font-heading text-xl font-bold">3. Comercio</h2>
               </div>
 
-              <div className="bg-white border border-[#E4E4E7] rounded-lg p-6 md:p-8 shadow-sm flex flex-col gap-6">
+              <div className="bg-white border border-[#E4E4E7] rounded-lg p-6 md:p-8 shadow-sm flex flex-col gap-8 md:gap-6">
                 
                 <div>
-                  <label className="text-[#1B1C1C] text-sm font-bold block mb-3">Productos de Interés</label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                  <label className="text-[#1B1C1C] text-sm font-bold block mb-4 md:mb-3">Productos de Interés</label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-3">
                     {productosList.map(prod => (
-                      <label key={prod} className="flex items-center gap-3 bg-[#F4F4F5] border border-[#E4E4E7] rounded-[4px] p-3 cursor-pointer hover:border-[#954500] transition-colors">
-                        <input type="checkbox" value={prod} {...register('productosInteres')} className="accent-[#954500] w-4 h-4 rounded-sm border-[#D4D4D8]" />
-                        <span className="text-[#554339] text-sm font-medium">{prod}</span>
+                      <label key={prod} className="flex items-center gap-3 bg-[#F4F4F5] border border-[#E4E4E7] rounded-[4px] p-4 md:p-3 cursor-pointer hover:border-[#954500] transition-colors">
+                        <input type="checkbox" value={prod} {...register('productosInteres')} className="accent-[#954500] w-5 h-5 md:w-4 md:h-4 rounded-sm border-[#D4D4D8]" />
+                        <span className="text-[#554339] text-base md:text-sm font-medium">{prod}</span>
                       </label>
                     ))}
                   </div>
-                  {errors.productosInteres && <span className="text-red-500 text-[10px] mt-1 block">{errors.productosInteres.message}</span>}
+                  {errors.productosInteres && <span className="text-red-500 text-[10px] mt-2 block">{errors.productosInteres.message}</span>}
                 </div>
 
                 <div>
-                  <label className="text-[#1B1C1C] text-sm font-bold block mb-3">Presentación requerida</label>
+                  <label className="text-[#1B1C1C] text-sm font-bold block mb-4 md:mb-3">Presentación requerida</label>
                   <div className="flex flex-wrap gap-4">
                     {presentacionesList.map(pres => (
-                      <label key={pres} className="flex items-center gap-2 cursor-pointer bg-[#F4F4F5] border border-[#E4E4E7] rounded-[4px] px-4 py-2 hover:border-[#954500] transition-colors">
-                        <input type="checkbox" value={pres} {...register('presentacion')} className="accent-[#954500] w-4 h-4 rounded-sm" />
-                        <span className="text-[#554339] text-sm font-medium">{pres}</span>
+                      <label key={pres} className="flex items-center gap-3 md:gap-2 cursor-pointer bg-[#F4F4F5] border border-[#E4E4E7] rounded-[4px] px-5 py-3 md:px-4 md:py-2 hover:border-[#954500] transition-colors">
+                        <input type="checkbox" value={pres} {...register('presentacion')} className="accent-[#954500] w-5 h-5 md:w-4 md:h-4 rounded-sm" />
+                        <span className="text-[#554339] text-base md:text-sm font-medium">{pres}</span>
                       </label>
                     ))}
                   </div>
-                  {errors.presentacion && <span className="text-red-500 text-[10px] mt-1 block">{errors.presentacion.message}</span>}
+                  {errors.presentacion && <span className="text-red-500 text-[10px] mt-2 block">{errors.presentacion.message}</span>}
                 </div>
 
               </div>
@@ -232,12 +232,12 @@ export default function Contact() {
 
               <div className="bg-white border border-[#E4E4E7] rounded-lg p-6 md:p-8 shadow-sm flex flex-col gap-6">
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-[#E4E4E7] pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 border-b border-[#E4E4E7] pb-6 md:pb-6">
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[#554339] text-xs font-semibold">Volumen estimado</label>
-                    <div className="flex gap-2">
-                      <input type="text" {...register('volumen')} placeholder="e.g. 5" className="flex-1 border border-[#D4D4D8] rounded-[4px] py-2 px-3 text-sm bg-white outline-none focus:border-[#954500]" />
-                      <select {...register('unidadVolumen')} className="w-[140px] border border-[#D4D4D8] rounded-[4px] py-2 px-3 text-sm bg-white outline-none focus:border-[#954500]">
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <input type="text" {...register('volumen')} placeholder="e.g. 5" className="w-full sm:flex-1 border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]" />
+                      <select {...register('unidadVolumen')} className="w-full sm:w-[150px] border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]">
                         <option value="Contenedores">Contenedores</option>
                         <option value="Toneladas">Toneladas</option>
                         <option value="Pallets">Pallets</option>
@@ -249,7 +249,7 @@ export default function Contact() {
                   
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[#554339] text-xs font-semibold">Incoterm preferido</label>
-                    <select {...register('incoterm')} className="w-full border border-[#D4D4D8] rounded-[4px] py-2 px-3 text-sm bg-white outline-none focus:border-[#954500]">
+                    <select {...register('incoterm')} className="w-full border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]">
                       <option value="">Seleccione un incoterm...</option>
                       <option value="FOB">FOB</option>
                       <option value="CIF">CIF</option>
@@ -259,24 +259,24 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className="border-b border-[#E4E4E7] pb-6">
-                  <label className="text-[#1B1C1C] text-sm font-bold block mb-3">Certificaciones requeridas</label>
+                <div className="border-b border-[#E4E4E7] pb-8 md:pb-6">
+                  <label className="text-[#1B1C1C] text-sm font-bold block mb-4 md:mb-3">Certificaciones requeridas</label>
                   <div className="flex flex-wrap gap-3">
                     {certificacionesList.map(cert => (
-                      <label key={cert} className="flex items-center gap-2 cursor-pointer bg-white border border-[#D4D4D8] rounded-full px-4 py-1.5 hover:border-[#954500] transition-colors">
-                        <input type="checkbox" value={cert} {...register('certificaciones')} className="accent-[#954500] w-3.5 h-3.5" />
-                        <span className="text-[#554339] text-[13px] font-medium">{cert}</span>
+                      <label key={cert} className="flex items-center gap-2 cursor-pointer bg-white border border-[#D4D4D8] rounded-full px-5 py-2.5 md:px-4 md:py-1.5 hover:border-[#954500] transition-colors">
+                        <input type="checkbox" value={cert} {...register('certificaciones')} className="accent-[#954500] w-5 h-5 md:w-3.5 md:h-3.5" />
+                        <span className="text-[#554339] text-sm md:text-[13px] font-medium">{cert}</span>
                       </label>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[#554339] text-xs font-semibold block mb-1.5">Mensaje adicional o requisitos específicos</label>
+                  <label className="text-[#554339] text-xs font-semibold block mb-2 md:mb-1.5">Mensaje adicional o requisitos específicos</label>
                   <textarea 
                     {...register('mensaje')}
                     placeholder="Por favor, proporcione cualquier detalle adicional sobre especificaciones de calidad, requisitos de embalaje o plazos de entrega..."
-                    className="w-full border border-[#D4D4D8] rounded-[4px] py-3 px-3 text-sm bg-white outline-none focus:border-[#954500] min-h-[100px] resize-none"
+                    className="w-full border border-[#D4D4D8] rounded-[4px] py-3 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500] min-h-[120px] md:min-h-[100px] resize-none"
                   ></textarea>
                 </div>
 
@@ -284,23 +284,23 @@ export default function Contact() {
             </section>
 
             {/* Aceptación y Envío */}
-            <div className="flex flex-col gap-6 mt-4">
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input type="checkbox" {...register('politica')} className="accent-[#954500] w-4 h-4 mt-0.5 rounded-sm" />
-                <span className="text-[#71717A] text-xs leading-relaxed max-w-[800px]">
+            <div className="flex flex-col gap-8 md:gap-6 mt-2 md:mt-4">
+              <label className="flex items-start gap-4 md:gap-3 cursor-pointer">
+                <input type="checkbox" {...register('politica')} className="accent-[#954500] w-6 h-6 md:w-4 md:h-4 mt-0.5 rounded-sm shrink-0" />
+                <span className="text-[#71717A] text-sm md:text-xs leading-relaxed max-w-[800px]">
                   Reconozco haber leído y aceptado la Política de Privacidad y los Términos de Servicio. Doy mi consentimiento para que Procesadora Perú SAC procese mis datos para responder a esta consulta comercial.
                 </span>
               </label>
-              {errors.politica && <span className="text-red-500 text-[10px] -mt-4">{errors.politica.message}</span>}
+              {errors.politica && <span className="text-red-500 text-[10px] -mt-6 md:-mt-4">{errors.politica.message}</span>}
 
-              <div className="flex justify-end">
+              <div className="flex justify-end w-full md:w-auto">
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="bg-[#954500] text-white font-bold text-sm px-8 py-3.5 rounded-[4px] flex items-center justify-center gap-2 hover:bg-[#7a3800] transition-colors shadow-sm disabled:opacity-70"
+                  className="w-full md:w-auto bg-[#954500] text-white font-bold text-base md:text-sm px-8 py-4 md:py-3.5 rounded-[4px] flex items-center justify-center gap-2 hover:bg-[#7a3800] transition-colors shadow-sm disabled:opacity-70"
                 >
                   {isSubmitting ? 'Enviando...' : 'Enviar solicitud de cotización'}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                 </button>
               </div>
             </div>
@@ -309,38 +309,38 @@ export default function Contact() {
         </div>
 
         {/* Sección Inferior de Características (Fondo Gris Claro) */}
-        <div className="bg-[#F4F4F5] border-t border-[#E4E4E7] py-20">
-          <div className="max-w-[1280px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="bg-[#F4F4F5] border-t border-[#E4E4E7] py-16 md:py-20">
+          <div className="max-w-[1280px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-12">
             
             {/* Feature 1 */}
             <div className="flex flex-col items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#FCE5D8] flex items-center justify-center">
+              <div className="w-14 h-14 md:w-12 md:h-12 rounded-full bg-[#FCE5D8] flex items-center justify-center">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#954500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
               </div>
-              <h3 className="text-[#1B1C1C] font-heading text-xl font-bold">Tecnología de Punta</h3>
-              <p className="text-[#554339] font-body text-sm leading-relaxed pr-4">
+              <h3 className="text-[#1B1C1C] font-heading text-xl md:text-xl font-bold">Tecnología de Punta</h3>
+              <p className="text-[#554339] font-body text-base md:text-sm leading-relaxed pr-0 md:pr-4">
                 Infraestructura industrial avanzada para el lavado, selección electrónica y almacenamiento refrigerado de última generación.
               </p>
             </div>
 
             {/* Feature 2 */}
             <div className="flex flex-col items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#FCE5D8] flex items-center justify-center">
+              <div className="w-14 h-14 md:w-12 md:h-12 rounded-full bg-[#FCE5D8] flex items-center justify-center">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#954500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>
               </div>
-              <h3 className="text-[#1B1C1C] font-heading text-xl font-bold">Compromiso Agrícola</h3>
-              <p className="text-[#554339] font-body text-sm leading-relaxed pr-4">
+              <h3 className="text-[#1B1C1C] font-heading text-xl md:text-xl font-bold">Compromiso Agrícola</h3>
+              <p className="text-[#554339] font-body text-base md:text-sm leading-relaxed pr-0 md:pr-4">
                 Alianzas estratégicas con productores locales basadas en el comercio justo y la transferencia tecnológica constante.
               </p>
             </div>
 
             {/* Feature 3 */}
             <div className="flex flex-col items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#FCE5D8] flex items-center justify-center">
+              <div className="w-14 h-14 md:w-12 md:h-12 rounded-full bg-[#FCE5D8] flex items-center justify-center">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#954500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
               </div>
-              <h3 className="text-[#1B1C1C] font-heading text-xl font-bold">Logística Integrada</h3>
-              <p className="text-[#554339] font-body text-sm leading-relaxed pr-4">
+              <h3 className="text-[#1B1C1C] font-heading text-xl md:text-xl font-bold">Logística Integrada</h3>
+              <p className="text-[#554339] font-body text-base md:text-sm leading-relaxed pr-0 md:pr-4">
                 Control total del flujo de exportación: desde la planta hasta el puerto, garantizando la frescura y puntualidad.
               </p>
             </div>
