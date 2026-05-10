@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Mango Kent",
+    "category": "Frutas",
+    "description": "Mango fresco de alta calidad, ideal para exportación. Alto en pulpa y bajo en fibra.",
+    "origin": "Piura, Perú",
+    "image": "/images/mango-kent.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Mango Tommy Atkins",
+    "category": "Frutas",
+    "description": "Mango resistente, ideal para largas distancias de transporte. Color rojo intenso.",
+    "origin": "Piura, Perú",
+    "image": "/images/mango-tommy.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Frijol Castilla",
+    "category": "Legumbres",
+    "description": "Legumbre de grano mediano, rico en proteínas. Seleccionado electrónicamente.",
+    "origin": "Lambayeque, Perú",
+    "image": "/images/frijol-castilla.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Frijol de Palo",
+    "category": "Legumbres",
+    "description": "Grano premium con alta demanda en mercados internacionales. Trazabilidad completa.",
+    "origin": "Lambayeque, Perú",
+    "image": "/images/frijol-palo.jpg"
+  }
+]
