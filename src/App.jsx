@@ -9,6 +9,7 @@ import About from './pages/About';
 import Products from './pages/Products';
 import Contact from './pages/Contact';
 import ComplaintsBook from './pages/ComplaintsBook';
+import ScrollToTop from './components/sections/ScrollToTop';
 
 function App() {
   const [toastPosition, setToastPosition] = useState(
@@ -27,6 +28,7 @@ function App() {
     <HelmetProvider>
       <Toaster position={toastPosition} richColors />
       <Router>
+        <ScrollToTop />
         <div className="flex flex-col min-h-screen">
           <Navbar />
           {/* Añadimos pt-[93px] al main para compensar el Navbar fijo */}

@@ -11,13 +11,23 @@ const productImages = {
   4: 'https://images.unsplash.com/photo-1551462147-ff29053bfc14?q=80&w=800&auto=format&fit=crop'  // Frijol de Palo
 };
 
+// Mapeo temporal de variedades para los botones
+const productVarieties = {
+  1: [{ name: 'Mango Kent', id: '1' }, { name: 'Mango Tommy Atkins', id: '2' }],
+  2: [{ name: 'Mango Kent', id: '1' }, { name: 'Mango Tommy Atkins', id: '2' }],
+  3: [{ name: 'Frijol Castilla', id: '3' }, { name: 'Frijol de Palo', id: '4' }],
+  4: [{ name: 'Frijol Castilla', id: '3' }, { name: 'Frijol de Palo', id: '4' }]
+};
+
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Filters
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [selectedProductId, setSelectedProductId] = useState('all');
+
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,10 +47,9 @@ export default function Products() {
   const categories = ['Todos', ...new Set(products.map(p => p.category))];
 
   // Derived state
+  // Derived state - SOLO filtra por categoría para el Grid
   const filteredProducts = products.filter(p => {
-    const matchCategory = activeCategory === 'Todos' || p.category === activeCategory;
-    const matchProduct = selectedProductId === 'all' || p.id.toString() === selectedProductId;
-    return matchCategory && matchProduct;
+    return activeCategory === 'Todos' || p.category === activeCategory;
   });
 
   // El showcase mostrará el producto seleccionado en el dropdown, o el primero por defecto
@@ -58,7 +67,7 @@ export default function Products() {
 
         {/* --- CONTROLES SUPERIORES (Filtros y Selector Premium) --- */}
         <div className="max-w-[1280px] mx-auto px-6 md:px-12 mb-12 flex flex-col lg:flex-row justify-between items-center gap-6">
-          
+
           {/* Categorías */}
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 w-full lg:w-auto">
             {categories.map((category) => (
@@ -68,11 +77,10 @@ export default function Products() {
                   setActiveCategory(category);
                   setSelectedProductId('all'); // Reset dropdown al cambiar categoría
                 }}
-                className={`px-6 py-3 md:py-2.5 rounded-full font-body text-base md:text-sm font-semibold transition-all shadow-sm md:shadow-none hover:shadow-md ${
-                  activeCategory === category 
-                    ? 'bg-[#954500] text-white shadow-md' 
-                    : 'bg-white text-[#554339] border border-[#E4E4E7] hover:border-[#954500] hover:text-[#954500]'
-                }`}
+                className={`px-6 py-3 md:py-2.5 rounded-full font-body text-base md:text-sm font-semibold transition-all shadow-sm md:shadow-none hover:shadow-md ${activeCategory === category
+                  ? 'bg-[#954500] text-white shadow-md'
+                  : 'bg-white text-[#554339] border border-[#E4E4E7] hover:border-[#954500] hover:text-[#954500]'
+                  }`}
               >
                 {category}
               </button>
@@ -94,7 +102,7 @@ export default function Products() {
                 .filter(p => activeCategory === 'Todos' || p.category === activeCategory)
                 .map(p => (
                   <option key={p.id} value={p.id}>{p.name}</option>
-              ))}
+                ))}
             </select>
             <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#71717A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -105,7 +113,7 @@ export default function Products() {
 
         {/* --- SHOWCASE DEL PRODUCTO (Replicando la Imagen) --- */}
         {!isLoading && showcaseProduct && (
-          <motion.div 
+          <motion.div
             key={showcaseProduct.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -116,7 +124,7 @@ export default function Products() {
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
               {/* Imagen Izquierda */}
               <div className="w-full lg:w-3/5 relative">
-                <div 
+                <div
                   className="w-full h-[300px] md:h-[400px] lg:h-[500px] bg-white rounded-xl shadow-sm bg-cover bg-center"
                   style={{ backgroundImage: `url('${productImages[showcaseProduct.id] || showcaseProduct.image}')` }}
                 />
@@ -144,7 +152,7 @@ export default function Products() {
                 {/* Pricing Card */}
                 <div className="bg-[#F6F3F2] rounded-xl p-6 md:p-8 border border-[#E4E4E7]">
                   <div className="flex justify-between items-start mb-8">
-                    <span className="text-[#71717A] font-body text-[10px] md:text-xs font-bold tracking-widest uppercase">Wholesale<br/>Pricing</span>
+                    <span className="text-[#71717A] font-body text-[10px] md:text-xs font-bold tracking-widest uppercase">Wholesale<br />Pricing</span>
                     <div className="text-right">
                       <span className="text-[#954500] font-heading text-xl md:text-2xl font-extrabold block">Contact for Price</span>
                       <span className="text-[#71717A] font-body text-xs">FOB / CIF Available</span>
@@ -154,17 +162,42 @@ export default function Products() {
                   <div className="mb-6">
                     <span className="text-[#1B1C1C] font-body text-[10px] md:text-xs font-bold tracking-wider uppercase mb-3 block">Variety Selection</span>
                     <div className="grid grid-cols-2 gap-3">
-                      <button className="border-2 border-[#954500] text-[#954500] font-bold py-3 md:py-2.5 rounded-sm bg-white shadow-sm">Kent</button>
-                      <button className="border border-[#D4D4D8] text-[#52525B] font-semibold py-3 md:py-2.5 rounded-sm bg-white hover:border-[#954500] shadow-sm">Tommy Atkins</button>
+
+                      {productVarieties[showcaseProduct.id]?.map((variedad, index) => (
+                        <button
+                          key={index}
+                          onClick={() => {
+                            setSelectedProductId(variedad.id);
+                            setQuantity(1);
+                          }} className={`py-3 md:py-2.5 rounded-sm font-semibold shadow-sm transition-colors ${showcaseProduct.id.toString() === variedad.id
+                            ? 'border-2 border-[#954500] text-[#954500] bg-white' // Botón Seleccionado
+                            : 'border border-[#D4D4D8] text-[#52525B] bg-white hover:border-[#954500]' // Botón Inactivo
+                            }`}
+                        >
+                          {variedad.name}
+                        </button>
+                      ))}
+
                     </div>
                   </div>
-
                   <div className="mb-8">
                     <span className="text-[#1B1C1C] font-body text-[10px] md:text-xs font-bold tracking-wider uppercase mb-3 block">Quantity (Containers)</span>
                     <div className="flex items-center justify-between bg-white border border-[#D4D4D8] rounded-sm py-3 md:py-2 px-4 shadow-sm">
-                      <button className="text-[#954500] font-bold text-2xl md:text-xl hover:scale-110 transition-transform w-10 h-10 flex items-center justify-center">−</button>
-                      <span className="font-heading font-bold text-lg">1</span>
-                      <button className="text-[#954500] font-bold text-2xl md:text-xl hover:scale-110 transition-transform w-10 h-10 flex items-center justify-center">+</button>
+                      <button
+                        onClick={() => setQuantity(prev => prev > 1 ? prev - 1 : 1)}
+                        className="text-[#954500] font-bold text-2xl md:text-xl hover:scale-110 transition-transform w-10 h-10 flex items-center justify-center cursor-pointer"
+                      >
+                        −
+                      </button>
+
+                      <span className="font-heading font-bold text-lg">{quantity}</span>
+
+                      <button
+                        onClick={() => setQuantity(prev => prev + 1)}
+                        className="text-[#954500] font-bold text-2xl md:text-xl hover:scale-110 transition-transform w-10 h-10 flex items-center justify-center cursor-pointer"
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
 
@@ -183,7 +216,7 @@ export default function Products() {
                 <p className="text-[#554339] font-body text-sm md:text-base leading-relaxed mb-6 md:mb-8">
                   Rigorous quality control ensures every fruit meets international export standards for sweetness, size, and shelf life.
                 </p>
-                
+
                 <div className="flex flex-col gap-4">
                   <div className="flex justify-between border-b border-[#D4D4D8] pb-3">
                     <span className="font-bold text-[#1B1C1C] text-sm">Scientific Name</span>
@@ -203,7 +236,7 @@ export default function Products() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="w-full lg:w-2/3 flex flex-col gap-6">
                 <div className="flex flex-col md:flex-row gap-6">
                   {/* Packaging Options */}
@@ -225,7 +258,7 @@ export default function Products() {
                     </p>
                   </div>
                 </div>
-                
+
                 {/* Seasonal Availability */}
                 <div className="w-full bg-white rounded-xl p-6 md:p-8 shadow-sm overflow-hidden">
                   <div className="flex items-center gap-2 mb-6">
@@ -235,10 +268,10 @@ export default function Products() {
                   {/* Scrollable container for mobile */}
                   <div className="w-full overflow-x-auto pb-4 scrollbar-hide">
                     <div className="flex justify-between items-center min-w-[500px] w-full">
-                      {['OCT','NOV','DEC','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG'].map((month, i) => (
+                      {['OCT', 'NOV', 'DEC', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG'].map((month, i) => (
                         <div key={month} className="flex flex-col items-center gap-3 min-w-[40px]">
                           <span className="text-[10px] font-bold text-[#1B1C1C] uppercase">{month}</span>
-                          <div className={`w-6 h-6 rounded-full ${[2,3,4,5].includes(i) ? 'bg-[#954500]' : (i === 1 || i === 6) ? 'bg-[#D4A373]' : 'bg-[#E4E4E7]'}`}></div>
+                          <div className={`w-6 h-6 rounded-full ${[2, 3, 4, 5].includes(i) ? 'bg-[#954500]' : (i === 1 || i === 6) ? 'bg-[#D4A373]' : 'bg-[#E4E4E7]'}`}></div>
                         </div>
                       ))}
                     </div>
@@ -260,7 +293,7 @@ export default function Products() {
                 <p className="text-[#554339] font-body text-sm md:text-base leading-relaxed mb-8 md:mb-10">
                   The Kent variety is renowned for its fiberless, buttery texture and sweet, aromatic profile, while the Tommy Atkins offers incredible durability and a vibrant aesthetic, making it the preferred choice for long-distance maritime shipping.
                 </p>
-                
+
                 <div className="flex gap-8 md:gap-12">
                   <div>
                     <span className="text-[#377000] font-heading font-black text-2xl md:text-3xl block mb-1">100%</span>
@@ -273,7 +306,7 @@ export default function Products() {
                 </div>
               </div>
               <div className="w-full lg:w-1/2">
-                <div 
+                <div
                   className="w-full h-[250px] md:h-[350px] rounded-2xl bg-cover bg-center shadow-lg"
                   style={{ backgroundImage: "url('https://images.unsplash.com/photo-1595841696677-647d7c1775a7?q=80&w=1000&auto=format&fit=crop')" }}
                 />
@@ -296,7 +329,7 @@ export default function Products() {
                 <div className="h-px bg-[#E4E4E7] flex-1"></div>
               </div>
 
-              <motion.div 
+              <motion.div
                 layout
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
               >
@@ -312,12 +345,13 @@ export default function Products() {
                       className="bg-white border border-[#E4E4E7] rounded-xl overflow-hidden group hover:shadow-xl transition-all cursor-pointer flex flex-col"
                       onClick={() => {
                         setSelectedProductId(product.id.toString());
+                        setQuantity(1);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                       }}
                     >
                       {/* Image Container */}
                       <div className="h-[200px] md:h-[240px] w-full overflow-hidden relative shrink-0">
-                        <div 
+                        <div
                           className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                           style={{ backgroundImage: `url('${productImages[product.id] || product.image}')` }}
                         />
@@ -325,7 +359,7 @@ export default function Products() {
                           {product.category}
                         </div>
                       </div>
-                      
+
                       {/* Content */}
                       <div className="p-5 md:p-6 flex flex-col flex-grow">
                         <h3 className="text-[#1B1C1C] font-heading text-lg md:text-xl font-bold mb-2 group-hover:text-[#954500] transition-colors">{product.name}</h3>
@@ -345,7 +379,7 @@ export default function Products() {
               {!isLoading && filteredProducts.length === 0 && (
                 <div className="text-center py-24 bg-white rounded-xl border border-[#E4E4E7]">
                   <p className="text-[#71717A] text-base md:text-lg font-body">No se encontraron productos con estos filtros.</p>
-                  <button 
+                  <button
                     onClick={() => { setActiveCategory('Todos'); setSelectedProductId('all'); }}
                     className="mt-4 text-[#954500] font-bold hover:underline"
                   >

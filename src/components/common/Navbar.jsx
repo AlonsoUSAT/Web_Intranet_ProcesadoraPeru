@@ -30,7 +30,7 @@ export default function Navbar() {
         </div>
 
         {/* Hamburger Icon */}
-        <button 
+        <button
           className="md:hidden z-50 p-2 text-[#18181B]"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -47,15 +47,20 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`relative font-heading text-base font-bold pb-1 transition-colors ${
-                  isActive ? 'text-[#C2410C]' : 'text-[#52525B] hover:text-[#C2410C]'
-                }`}
+                className={`relative font-heading text-base font-bold pb-1 transition-colors ${isActive ? 'text-[#C2410C]' : 'text-[#52525B] hover:text-[#C2410C]'
+                  }`}
               >
                 {link.name}
                 {isActive && (
                   <motion.div
                     layoutId="underline"
                     className="absolute left-0 right-0 bottom-0 h-0.5 bg-[#C2410C]"
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 30,
+                      y: { duration: 0 } // <--- ¡ESTA ES LA MAGIA! Mata la animación vertical
+                    }}
                   />
                 )}
               </Link>
@@ -86,9 +91,8 @@ export default function Navbar() {
                     key={link.name}
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className={`font-heading text-lg font-bold py-4 border-b border-[#E4E4E7] ${
-                      isActive ? 'text-[#C2410C]' : 'text-[#52525B]'
-                    }`}
+                    className={`font-heading text-lg font-bold py-4 border-b border-[#E4E4E7] ${isActive ? 'text-[#C2410C]' : 'text-[#52525B]'
+                      }`}
                   >
                     {link.name}
                   </Link>
