@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function Navbar() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const { t, changeLanguage, language } = useLanguage(); // <-- Usamos el contexto
 
+  // Ahora los nombres vienen del diccionario 't' y se actualizan solos
   const navLinks = [
-    { name: 'Inicio', path: '/' },
-    { name: 'Nosotros', path: '/nosotros' },
-    { name: 'Productos', path: '/productos' },
-    { name: 'Linea Etica', path: '/libro-reclamaciones' },
-    { name: 'Contacto', path: '/contacto' },
+    { name: t.navbar.inicio, path: '/' },
+    { name: t.navbar.nosotros, path: '/nosotros' },
+    { name: t.navbar.productos, path: '/productos' },
+    { name: t.navbar.lineaEtica, path: '/libro-reclamaciones' },
+    { name: t.navbar.contacto, path: '/contacto' },
   ];
 
   return (
@@ -59,7 +62,7 @@ export default function Navbar() {
                       type: "spring",
                       stiffness: 300,
                       damping: 30,
-                      y: { duration: 0 } // <--- ¡ESTA ES LA MAGIA! Mata la animación vertical
+                      y: { duration: 0 }
                     }}
                   />
                 )}
@@ -68,10 +71,28 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:block">
+        {/* Desktop CTA & Language Switcher */}
+        <div className="hidden md:flex items-center gap-6">
+          {/* Banderas de Idioma */}
+          <div className="flex items-center gap-3 border-r border-[#E4E4E7] pr-6">
+            <button 
+              onClick={() => changeLanguage('es')} 
+              className={`text-xl transition-all ${language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-80'}`}
+              title="Español"
+            >
+              🇪🇸
+            </button>
+            <button 
+              onClick={() => changeLanguage('en')} 
+              className={`text-xl transition-all ${language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-80'}`}
+              title="English"
+            >
+              🇺🇸
+            </button>
+          </div>
+
           <button className="bg-[#954500] text-white font-heading text-base font-semibold px-6 py-2.5 rounded shadow-sm hover:shadow-md transition-shadow hover:bg-[#803a00]">
-            Acceso Intranet
+            {t.navbar.accesoIntranet}
           </button>
         </div>
 
@@ -98,8 +119,15 @@ export default function Navbar() {
                   </Link>
                 );
               })}
-              <button className="bg-[#954500] text-white font-heading text-lg font-semibold px-6 py-4 mt-6 rounded shadow-sm">
-                Acceso Intranet
+              
+              {/* Banderas en Mobile */}
+              <div className="flex justify-center gap-6 py-4 border-b border-[#E4E4E7]">
+                <button onClick={() => changeLanguage('es')} className={`text-2xl ${language === 'es' ? 'opacity-100' : 'opacity-50'}`}>🇪🇸</button>
+                <button onClick={() => changeLanguage('en')} className={`text-2xl ${language === 'en' ? 'opacity-100' : 'opacity-50'}`}>🇺🇸</button>
+              </div>
+
+              <button className="bg-[#954500] text-white font-heading text-lg font-semibold px-6 py-4 mt-4 rounded shadow-sm">
+                {t.navbar.accesoIntranet}
               </button>
             </motion.div>
           )}

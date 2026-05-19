@@ -1,16 +1,20 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+// 1. Importamos tu imagen inicio.jpeg que vi en tu carpeta assets
+import inicioBg from '../../assets/inicio.jpeg'; 
 
 export default function Hero() {
   return (
     <section className="relative w-full min-h-[100vh] md:h-[819px] overflow-hidden flex items-center pt-24 md:pt-0">
-      {/* Background Image Placeholder */}
+      
+      {/* Background Image: Usamos la variable inicioBg que creamos arriba */}
       <div 
         className="absolute inset-0 bg-cover bg-center z-0"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1595841696677-647d7c1775a7?q=80&w=2000&auto=format&fit=crop')" }} 
+        style={{ backgroundImage: `url(${inicioBg})` }} 
       />
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#FBF9F8] via-[#FBF9F8]/80 md:via-[#FBF9F8]/60 to-transparent z-10" />
+      
+      {/* Gradient Overlay Oscuro: Para que las letras blancas resalten */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#18181B]/95 via-[#18181B]/75 to-transparent z-10" />
 
       {/* Content */}
       <div className="max-w-[1280px] w-full mx-auto px-6 md:px-12 relative z-20">
@@ -25,22 +29,22 @@ export default function Hero() {
             GLOBAL AGRO-INDUSTRIAL LEADER
           </div>
 
-          {/* Headline */}
-          <h1 className="text-[#1B1C1C] font-heading text-[44px] md:text-[72px] leading-[1.1] font-extrabold tracking-tight">
-            La Esencia del Campo, Exportada al Mundo.
+          {/* Headline: Ahora con letras BLANCAS y el "Campo" en naranja */}
+          <h1 className="text-white font-heading text-[44px] md:text-[72px] leading-[1.1] font-extrabold tracking-tight">
+            La Esencia del <span className="text-[#E07A5F]">Campo,</span><br /> Exportada al Mundo.
           </h1>
 
-          {/* Description */}
-          <p className="text-[#554339] font-body text-lg md:text-xl leading-relaxed max-w-[580px]">
+          {/* Description: Letras blancas semitransparentes */}
+          <p className="text-white/90 font-body text-lg md:text-xl leading-relaxed max-w-[580px]">
             Transformamos la riqueza de la tierra peruana en productos de calidad internacional. Especialistas en procesamiento y logística global de mangos y legumbres.
           </p>
 
-          {/* Buttons */}
+          {/* Buttons: Efecto cristal para el modo oscuro */}
           <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto">
-            <Link to="/contacto" className="w-full sm:w-auto text-center bg-[#954500] text-white font-heading text-base md:text-lg font-bold px-8 py-4 rounded shadow-md hover:bg-[#803a00] hover:shadow-lg transition-all">
-              Contact Sales
+            <Link to="/contacto" className="w-full sm:w-auto text-center bg-[#954500] text-white font-heading text-base md:text-lg font-bold px-8 py-4 rounded shadow-md hover:bg-[#803a00] hover:shadow-lg transition-all flex items-center justify-center gap-2">
+              Contact Sales →
             </Link>
-            <Link to="/productos" className="w-full sm:w-auto text-center bg-white/60 md:bg-white/40 backdrop-blur-md border border-white/50 text-[#1B1C1C] font-heading text-base md:text-lg font-bold px-8 py-4 rounded hover:bg-white/80 transition-all">
+            <Link to="/productos" className="w-full sm:w-auto text-center bg-white/10 backdrop-blur-md border border-white/20 text-white font-heading text-base md:text-lg font-bold px-8 py-4 rounded hover:bg-white/20 transition-all">
               Nuestros Productos
             </Link>
           </div>

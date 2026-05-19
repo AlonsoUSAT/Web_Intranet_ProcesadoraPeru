@@ -10,6 +10,10 @@ import Products from './pages/Products';
 import Contact from './pages/Contact';
 import ComplaintsBook from './pages/ComplaintsBook';
 import ScrollToTop from './components/sections/ScrollToTop';
+import Terms from './pages/Terms';
+
+// 1. IMPORTAMOS TU NUEVO CONTEXTO DE IDIOMA
+import { LanguageProvider } from './context/LanguageContext';
 
 function App() {
   const [toastPosition, setToastPosition] = useState(
@@ -25,26 +29,30 @@ function App() {
   }, []);
 
   return (
-    <HelmetProvider>
-      <Toaster position={toastPosition} richColors />
-      <Router>
-        <ScrollToTop />
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          {/* Añadimos pt-[93px] al main para compensar el Navbar fijo */}
-          <main className="flex-grow pt-[93px]">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/nosotros" element={<About />} />
-              <Route path="/productos" element={<Products />} />
-              <Route path="/contacto" element={<Contact />} />
-              <Route path="/libro-reclamaciones" element={<ComplaintsBook />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
-    </HelmetProvider>
+    // 2. ENVOLVEMOS TODA LA APLICACIÓN PARA QUE EL IDIOMA LLEGUE A TODAS LAS PÁGINAS
+    <LanguageProvider>
+      <HelmetProvider>
+        <Toaster position={toastPosition} richColors />
+        <Router>
+          <ScrollToTop />
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            {/* Añadimos pt-[93px] al main para compensar el Navbar fijo */}
+            <main className="flex-grow pt-[93px]">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/nosotros" element={<About />} />
+                <Route path="/productos" element={<Products />} />
+                <Route path="/contacto" element={<Contact />} />
+                <Route path="/libro-reclamaciones" element={<ComplaintsBook />} />
+                <Route path="/terminos" element={<Terms />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      </HelmetProvider>
+    </LanguageProvider>
   );
 }
 

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import legumbreBg from '../../assets/legumbre.jpeg';
 
 export default function FeaturedProducts() {
   const containerVariants = {
@@ -17,7 +18,7 @@ export default function FeaturedProducts() {
   return (
     <section className="bg-white py-16 md:py-24 w-full">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12">
-        <motion.div 
+        <motion.div
           className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -40,7 +41,7 @@ export default function FeaturedProducts() {
         </motion.div>
 
         {/* Asymmetric Grid */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-12 gap-6"
           variants={containerVariants}
           initial="hidden"
@@ -49,7 +50,7 @@ export default function FeaturedProducts() {
         >
           {/* Mango Card (Large) */}
           <motion.div variants={itemVariants} className="md:col-span-7 h-[350px] md:h-[480px] rounded-2xl overflow-hidden relative group">
-            <div 
+            <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
               style={{ backgroundImage: "url('https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=1000&auto=format&fit=crop')" }}
             />
@@ -66,10 +67,9 @@ export default function FeaturedProducts() {
           <div className="md:col-span-5 flex flex-col gap-6">
             {/* Legumes Card */}
             <motion.div variants={itemVariants} className="h-[200px] md:h-[260px] rounded-2xl overflow-hidden relative group">
-              <div 
+              <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1515589654515-32e6fb1bf6b5?q=80&w=800&auto=format&fit=crop')" }}
-              />
+                style={{ backgroundImage: `url(${legumbreBg})` }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 p-6 md:p-8">
                 <h3 className="text-white font-heading text-xl md:text-2xl font-bold mb-2">Legumbres y Granos</h3>

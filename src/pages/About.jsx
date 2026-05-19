@@ -15,18 +15,18 @@ export default function About() {
         {/* 1. Hero Editorial Section */}
         <section className="relative w-full min-h-[calc(100vh-93px)] lg:h-[819px] flex items-center bg-[#FBF9F8]">
           {/* Image & Gradient */}
-          <div 
+          <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=1426&auto=format&fit=crop')" }} 
+            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=1426&auto=format&fit=crop')" }}
           />
-          <div 
-            className="absolute inset-0" 
-            style={{ background: "linear-gradient(90deg, #FBF9F8 0%, rgba(251, 249, 248, 0.7) 50%, rgba(251, 249, 248, 0) 100%)" }} 
+          <div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(90deg, #FBF9F8 0%, rgba(251, 249, 248, 0.7) 50%, rgba(251, 249, 248, 0) 100%)" }}
           />
 
           {/* Text Container */}
           <div className="max-w-[1280px] w-full mx-auto px-6 md:px-12 relative z-10">
-            <motion.div 
+            <motion.div
               className="max-w-[763px] flex flex-col items-start gap-6 md:gap-[32px] py-12 md:py-0"
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -38,12 +38,12 @@ export default function About() {
                   Nuestra Identidad
                 </span>
               </div>
-              
+
               {/* Heading 1 */}
               <h1 className="text-[#1B1C1C] font-['Manrope'] text-[40px] md:text-[72px] font-[800] leading-[1.1] m-0">
                 Elevando la Tierra a<br className="hidden md:block" /> un <span className="text-[#B55C1C]">Estándar Global.</span>
               </h1>
-              
+
               {/* Paragraph */}
               <p className="text-[#554339] font-['Inter'] text-lg md:text-[20px] font-normal leading-relaxed m-0 max-w-[664px]">
                 En Procesadora Perú SAC, transformamos la riqueza del agro peruano en soluciones industriales de alta precisión para los mercados más exigentes del mundo.
@@ -55,17 +55,15 @@ export default function About() {
         {/* 2. Section - History & Mission */}
         <section className="relative w-full bg-[#FBF9F8] py-16 md:py-32">
           <div className="max-w-[1280px] w-full mx-auto px-6 md:px-12 flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
-            
+
             {/* Left Column (Image & Badge) */}
             <div className="w-full lg:w-1/2 relative h-[400px] md:h-[593px]">
-              <div 
+              <div
                 className="absolute inset-0 rounded-[8px] bg-cover bg-center shadow-sm"
-                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1595841696677-647d7c1775a7?q=80&w=800&auto=format&fit=crop')" }}
+                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop')" }}
               />
-              
-              {/* Overlay+Shadow Badge */}
-              <motion.div 
-                className="absolute -bottom-6 -right-2 md:bottom-auto md:top-[70%] md:-right-12 w-[220px] md:w-[276px] bg-[#B55C1C] rounded-[8px] shadow-[0px_8px_10px_-6px_rgba(0,0,0,0.1),_0px_20px_25px_-5px_rgba(0,0,0,0.1)] p-6 md:p-10 z-10"
+              <motion.div
+                className="absolute -bottom-8 -right-4 md:-bottom-12 md:-right-12 w-[220px] md:w-[276px] bg-[#B55C1C] rounded-[8px] shadow-[0px_8px_10px_-6px_rgba(0,0,0,0.1),_0px_20px_25px_-5px_rgba(0,0,0,0.1)] p-6 md:p-10 z-10"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -74,7 +72,7 @@ export default function About() {
                 <div className="text-[#FFFBFF] font-['Manrope'] text-[40px] md:text-[48px] font-[900] leading-none mb-2">
                   25+
                 </div>
-                <div className="text-[#FFFBFF] font-['Inter'] text-xs md:text-[14px] font-[600] tracking-widest uppercase leading-tight">
+                <div className="text-[#FFFBFF] font-['Inter'] text-[10px] md:text-[14px] font-[600] tracking-widest uppercase leading-tight">
                   Años de Excelencia
                 </div>
               </motion.div>
@@ -82,7 +80,7 @@ export default function About() {
 
             {/* Right Column (Text) */}
             <div className="w-full lg:w-1/2 flex flex-col justify-between items-start pt-8 md:pt-0">
-              
+
               {/* Heading & Paragraph */}
               <div className="flex flex-col items-start mb-12">
                 <h2 className="text-[#1B1C1C] font-['Manrope'] text-[32px] md:text-[36px] font-[800] leading-tight m-0 mb-4">
@@ -123,7 +121,7 @@ export default function About() {
         {/* 3. Section - Services: Bento Grid Layout */}
         <section className="w-full bg-[#F6F3F2] py-16 md:py-24">
           <div className="max-w-[1280px] w-full mx-auto px-6 md:px-12 flex flex-col gap-12">
-            
+
             {/* Header */}
             <div className="flex flex-col items-center md:items-start lg:items-center gap-4">
               <h2 className="text-[#1B1C1C] font-['Manrope'] text-[32px] md:text-[48px] font-[900] leading-tight text-center md:text-left lg:text-center m-0">
@@ -136,23 +134,22 @@ export default function About() {
 
             {/* Grid */}
             <div className="flex flex-col lg:flex-row gap-8 w-full min-h-[400px] md:min-h-[600px]">
-              
+
               {/* IQF Frozen Card */}
-              <motion.div 
+              <motion.div
                 className="relative w-full lg:w-[57%] h-[400px] md:h-[600px] bg-white rounded-xl overflow-hidden group"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                <div 
+                <div
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1635328849767-422fc9b08f43?q=80&w=800&auto=format&fit=crop')" }}
-                />
-                <div 
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=800&auto=format&fit=crop')" }} />
+                <div
                   className="absolute inset-0"
                   style={{ background: "linear-gradient(0deg, rgba(24, 24, 27, 0.9) 0%, rgba(24, 24, 27, 0.4) 50%, rgba(24, 24, 27, 0) 100%)" }}
                 />
-                
+
                 <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 flex flex-col gap-4 z-10">
                   <h3 className="text-[#FFFFFF] font-['Manrope'] text-[28px] md:text-[36px] font-[800] leading-tight m-0">
                     Congelados IQF
@@ -163,30 +160,29 @@ export default function About() {
                   <div className="flex items-center gap-2 cursor-pointer mt-2 md:mt-4">
                     <span className="text-[#FFB68B] font-['Inter'] text-sm md:text-[16px] font-[700]">Explorar detalles</span>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M3.3335 8H12.6668" stroke="#FFB68B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M8 3.33337L12.6667 8.00004L8 12.6667" stroke="#FFB68B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M3.3335 8H12.6668" stroke="#FFB68B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M8 3.33337L12.6667 8.00004L8 12.6667" stroke="#FFB68B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                 </div>
               </motion.div>
 
               {/* Canned Card */}
-              <motion.div 
+              <motion.div
                 className="relative w-full lg:w-[43%] h-[400px] md:h-[600px] bg-white rounded-xl overflow-hidden group"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
               >
-                <div 
+                <div
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1599307767316-776abeddebc8?q=80&w=600&auto=format&fit=crop')" }}
-                />
-                <div 
+                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1606859191214-25806e8e2423?q=80&w=800&auto=format&fit=crop')" }} />
+                <div
                   className="absolute inset-0"
                   style={{ background: "linear-gradient(0deg, rgba(24, 24, 27, 0.9) 0%, rgba(24, 24, 27, 0.4) 50%, rgba(24, 24, 27, 0) 100%)" }}
                 />
-                
+
                 <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 flex flex-col gap-4 z-10">
                   <h3 className="text-[#FFFFFF] font-['Manrope'] text-[28px] md:text-[36px] font-[800] leading-tight m-0">
                     Conservas
@@ -197,8 +193,8 @@ export default function About() {
                   <div className="flex items-center gap-2 cursor-pointer mt-2 md:mt-4">
                     <span className="text-[#FFB68B] font-['Inter'] text-sm md:text-[16px] font-[700]">Ver catálogo</span>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M3.3335 8H12.6668" stroke="#FFB68B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M8 3.33337L12.6667 8.00004L8 12.6667" stroke="#FFB68B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M3.3335 8H12.6668" stroke="#FFB68B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M8 3.33337L12.6667 8.00004L8 12.6667" stroke="#FFB68B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                 </div>
@@ -211,7 +207,7 @@ export default function About() {
         {/* 4. Stats Section */}
         <section className="w-full bg-[#FBF9F8] border-t border-[#E4E4E7] py-16 md:py-24">
           <div className="max-w-[1280px] w-full mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8 text-center">
-            
+
             <div className="flex flex-col items-center gap-2">
               <span className="text-[#954500] font-['Manrope'] text-[40px] md:text-[60px] font-[900] leading-none m-0">
                 50k
