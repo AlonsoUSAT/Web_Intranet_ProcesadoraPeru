@@ -1,9 +1,12 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 // 1. Importamos tu imagen inicio.jpeg que vi en tu carpeta assets
 import inicioBg from '../../assets/inicio.jpeg'; 
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative w-full min-h-[100vh] md:h-[819px] overflow-hidden flex items-center pt-24 md:pt-0">
       
@@ -26,26 +29,26 @@ export default function Hero() {
         >
           {/* Tag */}
           <div className="bg-[#954500] text-white font-body text-[10px] md:text-xs font-bold px-3 py-1 uppercase tracking-wider w-fit rounded-sm shadow-sm">
-            GLOBAL AGRO-INDUSTRIAL LEADER
+            {t.home.heroTag}
           </div>
 
           {/* Headline: Ahora con letras BLANCAS y el "Campo" en naranja */}
           <h1 className="text-white font-heading text-[44px] md:text-[72px] leading-[1.1] font-extrabold tracking-tight">
-            La Esencia del <span className="text-[#E07A5F]">Campo,</span><br /> Exportada al Mundo.
+            {t.home.heroTitle1} <span className="text-[#E07A5F]">{t.home.heroTitleHighlight}</span><br /> {t.home.heroTitle2}
           </h1>
 
           {/* Description: Letras blancas semitransparentes */}
           <p className="text-white/90 font-body text-lg md:text-xl leading-relaxed max-w-[580px]">
-            Transformamos la riqueza de la tierra peruana en productos de calidad internacional. Especialistas en procesamiento y logística global de mangos y legumbres.
+            {t.home.heroDesc}
           </p>
 
           {/* Buttons: Efecto cristal para el modo oscuro */}
           <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto">
             <Link to="/contacto" className="w-full sm:w-auto text-center bg-[#954500] text-white font-heading text-base md:text-lg font-bold px-8 py-4 rounded shadow-md hover:bg-[#803a00] hover:shadow-lg transition-all flex items-center justify-center gap-2">
-              Contact Sales →
+              {t.home.heroBtn1}
             </Link>
             <Link to="/productos" className="w-full sm:w-auto text-center bg-white/10 backdrop-blur-md border border-white/20 text-white font-heading text-base md:text-lg font-bold px-8 py-4 rounded hover:bg-white/20 transition-all">
-              Nuestros Productos
+              {t.home.heroBtn2}
             </Link>
           </div>
         </motion.div>

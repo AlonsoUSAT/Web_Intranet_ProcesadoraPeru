@@ -1,33 +1,49 @@
 [
   {
     "id": 1,
-    "name": "Mango Kent",
+    "name": "Mango",
     "category": "Frutas",
-    "description": "Mango fresco de alta calidad, ideal para exportación. Alto en pulpa y bajo en fibra.",
+    "description": "Mango premium seleccionado y procesado bajo estrictos estándares de calidad. Ideal para exportación y la industria alimentaria.",
     "origin": "Piura, Perú",
-    "image": "/images/mango-kent.jpg"
+    "image": "/images/mango.jpg"
   },
   {
     "id": 2,
-    "name": "Mango Tommy Atkins",
-    "category": "Frutas",
-    "description": "Mango resistente, ideal para largas distancias de transporte. Color rojo intenso.",
-    "origin": "Piura, Perú",
-    "image": "/images/mango-tommy.jpg"
+    "name": "Maracuyá",
+    "category": "Pulpas",
+    "description": "Maracuyá de alto rendimiento y nivel brix ideal. Seleccionado cuidadosamente para la industria de bebidas y exportación.",
+    "origin": "Lambayeque, Perú",
+    "image": "/images/maracuya.jpg"
   },
   {
     "id": 3,
-    "name": "Frijol Castilla",
-    "category": "Legumbres",
-    "description": "Legumbre de grano mediano, rico en proteínas. Seleccionado electrónicamente.",
+    "name": "Fresa",
+    "category": "Frutas",
+    "description": "Fresas procesadas en su punto óptimo de maduración para garantizar una textura firme, color vibrante y su característico dulzor natural.",
     "origin": "Lambayeque, Perú",
-    "image": "/images/frijol-castilla.jpg"
+    "image": "/images/fresa.jpg"
   },
   {
     "id": 4,
+    "name": "Arándano",
+    "category": "Frutas",
+    "description": "Arándanos seleccionados rigurosamente por calibre y firmeza. Procesados para mantener intactas sus propiedades antioxidantes.",
+    "origin": "Lambayeque, Perú",
+    "image": "/images/arandano.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Palta",
+    "category": "Frutas",
+    "description": "Palta de exportación procesada en su punto exacto de maduración. Solución perfecta y sin mermas para el sector de food service.",
+    "origin": "Lambayeque, Perú",
+    "image": "/images/palta.jpg"
+  },
+  {
+    "id": 6,
     "name": "Frijol de Palo",
     "category": "Legumbres",
-    "description": "Grano premium con alta demanda en mercados internacionales. Trazabilidad completa.",
+    "description": "Grano premium con alta demanda en mercados internacionales. Seleccionado con trazabilidad completa y estándares de calidad.",
     "origin": "Lambayeque, Perú",
     "image": "/images/frijol-palo.jpg"
   }

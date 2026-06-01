@@ -14,3 +14,5 @@ export const getProducts = async () => {
   // Retornamos el JSON directamente para el mock
   return productsMock;
 };
+
+

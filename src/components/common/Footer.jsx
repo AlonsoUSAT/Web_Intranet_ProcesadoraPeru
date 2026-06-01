@@ -92,7 +92,7 @@ export default function Footer() {
                   <div
                     onClick={handleCaptchaClick}
                     className={`w-7 h-7 flex items-center justify-center rounded-[2px] cursor-pointer transition-all ${captchaState === 'idle' ? 'border-[2px] border-[#C1C1C1] bg-white hover:border-[#B2B2B2]' :
-                        captchaState === 'loading' ? 'bg-white' : 'bg-white'
+                      captchaState === 'loading' ? 'bg-white' : 'bg-white'
                       }`}
                   >
                     {captchaState === 'loading' && (
@@ -128,8 +128,8 @@ export default function Footer() {
                 type="submit"
                 disabled={captchaState !== 'verified'}
                 className={`px-6 py-2.5 font-bold transition duration-300 shadow-sm text-sm tracking-wider rounded ${captchaState === 'verified'
-                    ? 'bg-[#E07A5F] hover:bg-[#D46B4F] text-white cursor-pointer'
-                    : 'bg-[#E07A5F]/50 text-white/70 cursor-not-allowed'
+                  ? 'bg-[#E07A5F] hover:bg-[#D46B4F] text-white cursor-pointer'
+                  : 'bg-[#E07A5F]/50 text-white/70 cursor-not-allowed'
                   }`}
               >
                 {t.footer.btnEnviar}
@@ -151,9 +151,11 @@ export default function Footer() {
       <button
         onClick={scrollToTop}
         className="absolute right-6 bottom-6 bg-[#E07A5F] text-white p-3 rounded-full shadow-lg hover:bg-[#D46B4F] transition-transform hover:-translate-y-1"
-        aria-label="Volver arriba"
+        aria-label={t.footer.volverArriba || "Volver arriba"}
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 15l7-7 7 7"></path></svg>
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 15l7-7 7 7"></path>
+        </svg>
       </button>
     </footer>
   );

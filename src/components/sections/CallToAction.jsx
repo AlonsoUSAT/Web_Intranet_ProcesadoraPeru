@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { PhoneCall } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function CallToAction() {
+  const { t } = useLanguage();
+
   return (
     <section className="py-16 md:py-24 bg-white w-full">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12">
@@ -17,16 +20,16 @@ export default function CallToAction() {
           <div className="p-8 md:p-24 md:w-1/2 flex flex-col justify-between h-full">
             <div>
               <h2 className="text-white font-heading text-[36px] md:text-[60px] font-bold leading-tight mb-6 md:mb-8">
-                Construyamos<br className="hidden md:block" /> el Futuro del<br className="hidden md:block" /> Agro Peruano.
+                {t.home.ctaTitle}
               </h2>
               <p className="text-[#A1A1AA] font-body text-base md:text-xl leading-relaxed max-w-[470px] mb-8 md:mb-12">
-                ¿Busca un socio estratégico para el suministro global de productos agrícolas de alta gama? Nuestro equipo comercial está listo para atender sus requerimientos.
+                {t.home.ctaDesc}
               </p>
             </div>
             
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 md:gap-8">
               <Link to="/contacto" className="w-full sm:w-auto text-center bg-[#954500] text-white font-heading text-base md:text-lg font-bold px-8 py-4 rounded hover:bg-[#803a00] transition-colors shadow-sm">
-                Contactar Ventas
+                {t.home.ctaBtn}
               </Link>
               <div className="flex items-center gap-4 text-[#D4D4D8]">
                 <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center">

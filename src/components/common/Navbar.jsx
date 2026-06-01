@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../../context/LanguageContext';
+import logoImg from '../../assets/logopp.png';
 
 export default function Navbar() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const { t, changeLanguage, language } = useLanguage(); // <-- Usamos el contexto
+  const { t, changeLanguage, language } = useLanguage();
 
-  // Ahora los nombres vienen del diccionario 't' y se actualizan solos
   const navLinks = [
     { name: t.navbar.inicio, path: '/' },
     { name: t.navbar.nosotros, path: '/nosotros' },
@@ -25,10 +25,21 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 h-[93px] bg-[#FBF9F8]/80 backdrop-blur-md border-b border-[#F4F4F5] flex flex-col justify-end"
     >
       <div className="max-w-[1280px] w-full mx-auto px-6 md:px-12 h-[92px] flex items-center justify-between">
-        {/* Logo */}
+
+        {/* Logo y Nombre */}
         <div className="flex-shrink-0 z-50">
-          <Link to="/" className="text-[#18181B] font-heading text-xl md:text-2xl font-extrabold tracking-tight" onClick={() => setIsOpen(false)}>
-            PROCESADORA PERÚ
+          <Link to="/" className="flex items-center gap-3 md:gap-4" onClick={() => setIsOpen(false)}>
+
+            <img
+              src={logoImg}
+              alt="Logo Procesadora Perú"
+              className="h-10 md:h-14 w-auto object-contain"
+            />
+
+            {/* Texto gigante */}
+            <span className="text-[#18181B] font-heading text-2xl md:text-[28px] font-extrabold tracking-tight hidden sm:block">
+              PROCESADORA PERÚ
+            </span>
           </Link>
         </div>
 
@@ -75,15 +86,15 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-6">
           {/* Banderas de Idioma */}
           <div className="flex items-center gap-3 border-r border-[#E4E4E7] pr-6">
-            <button 
-              onClick={() => changeLanguage('es')} 
+            <button
+              onClick={() => changeLanguage('es')}
               className={`text-xl transition-all ${language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-80'}`}
               title="Español"
             >
               🇪🇸
             </button>
-            <button 
-              onClick={() => changeLanguage('en')} 
+            <button
+              onClick={() => changeLanguage('en')}
               className={`text-xl transition-all ${language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-80'}`}
               title="English"
             >
@@ -91,9 +102,9 @@ export default function Navbar() {
             </button>
           </div>
 
-          <button className="bg-[#954500] text-white font-heading text-base font-semibold px-6 py-2.5 rounded shadow-sm hover:shadow-md transition-shadow hover:bg-[#803a00]">
-            {t.navbar.accesoIntranet}
-          </button>
+         <Link to="/intranet/login" className="bg-[#954500] text-white font-heading text-base font-semibold px-6 py-2.5 rounded shadow-sm hover:shadow-md transition-shadow hover:bg-[#803a00]">
+  {t.navbar.accesoIntranet}
+</Link>
         </div>
 
         {/* Mobile Menu */}
@@ -119,16 +130,17 @@ export default function Navbar() {
                   </Link>
                 );
               })}
-              
+
               {/* Banderas en Mobile */}
               <div className="flex justify-center gap-6 py-4 border-b border-[#E4E4E7]">
                 <button onClick={() => changeLanguage('es')} className={`text-2xl ${language === 'es' ? 'opacity-100' : 'opacity-50'}`}>🇪🇸</button>
                 <button onClick={() => changeLanguage('en')} className={`text-2xl ${language === 'en' ? 'opacity-100' : 'opacity-50'}`}>🇺🇸</button>
               </div>
 
-              <button className="bg-[#954500] text-white font-heading text-lg font-semibold px-6 py-4 mt-4 rounded shadow-sm">
-                {t.navbar.accesoIntranet}
-              </button>
+             <Link to="/intranet/login" onClick={() => setIsOpen(false)} className="bg-[#954500] text-white font-heading text-lg font-semibold px-6 py-4 mt-4 rounded shadow-sm text-center">
+  {t.navbar.accesoIntranet}
+</Link>
+
             </motion.div>
           )}
         </AnimatePresence>

@@ -1,25 +1,28 @@
 import { motion } from 'framer-motion';
-import { Cpu, ShieldCheck, Truck } from 'lucide-react'; // Placeholder icons until custom SVGs are provided
-
-const propositions = [
-  {
-    title: 'Tecnología de Punta',
-    description: 'Infraestructura industrial avanzada para el lavado, selección electrónica y almacenamiento refrigerado de última generación.',
-    icon: <Cpu size={32} className="text-[#954500]" />
-  },
-  {
-    title: 'Compromiso Agrícola',
-    description: 'Alianzas estratégicas con productores locales basadas en el comercio justo y la transferencia tecnológica constante.',
-    icon: <ShieldCheck size={32} className="text-[#954500]" />
-  },
-  {
-    title: 'Logística Integrada',
-    description: 'Control total del flujo de exportación desde la planta hasta el puerto, garantizando la frescura y puntualidad.',
-    icon: <Truck size={32} className="text-[#954500]" />
-  }
-];
+import { Cpu, ShieldCheck, Truck } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function ValueProposition() {
+  const { t } = useLanguage();
+
+  const propositions = [
+    {
+      title: t.home.valProp1Title,
+      description: t.home.valProp1Desc,
+      icon: <Cpu size={32} className="text-[#954500]" />
+    },
+    {
+      title: t.home.valProp2Title,
+      description: t.home.valProp2Desc,
+      icon: <ShieldCheck size={32} className="text-[#954500]" />
+    },
+    {
+      title: t.home.valProp3Title,
+      description: t.home.valProp3Desc,
+      icon: <Truck size={32} className="text-[#954500]" />
+    }
+  ];
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
