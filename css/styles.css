@@ -1,0 +1,259 @@
+/* ═══════════════════════════════════════════════════════════════
+   PROCESADORA PERÚ S.A.C. — MONITOR GIS 
+   Tema: Claro (Day Mode) + Glassmorphism Corporativo
+═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap');
+
+:root {
+  /* Fondo Claro / Efecto Cristal Blanco */
+  --bg-glass:           rgba(255, 255, 255, 0.85); 
+  --borde-glass:        rgba(0, 0, 0, 0.1);
+  --sombra-glass:       0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  
+  /* Colores Corporativos Oficiales (Procesadora Perú) */
+  --color-naranja:      #F26522; 
+  --color-naranja-glow: rgba(242, 101, 34, 0.15);
+  --color-verde:        #8CC63F; 
+  --color-verde-glow:   rgba(140, 198, 63, 0.2);
+  
+  /* Textos para Fondo Claro */
+  --color-texto:        #374151; /* Gris oscuro para lectura */
+  --color-texto-suave:  #6b7280; /* Gris medio para subtítulos */
+  --color-texto-fuerte: #111827; /* Casi negro para títulos resaltados */
+  
+  /* Tipografía */
+  --fuente-titulos:     'Barlow Condensed', sans-serif;
+  --fuente-datos:       'IBM Plex Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--fuente-datos);
+  color: var(--color-texto);
+  background-color: #f3f4f6; /* Fondo base claro */
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* ── MAPA DE FONDO (Pantalla Completa) ── */
+.mapa-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1; 
+}
+
+#mapa {
+  width: 100%;
+  height: 100%;
+}
+
+/* NOTA: Se eliminó el filtro 'invert' para que el mapa se vea de DÍA y con sus colores reales */
+
+/* ── SIDEBAR LATERAL (Izquierda) ── */
+.sidebar {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  bottom: 20px;
+  width: 280px;
+  z-index: 1000;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--borde-glass);
+  border-radius: 16px;
+  box-shadow: var(--sombra-glass);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--borde-glass);
+}
+
+.logo-icono { font-size: 28px; }
+.logo-empresa { font-family: var(--fuente-titulos); font-size: 22px; font-weight: 700; color: var(--color-naranja); letter-spacing: 1px; }
+.logo-pais { font-size: 11px; color: var(--color-verde); text-transform: uppercase; letter-spacing: 2px; }
+
+/* Menú de Navegación */
+.sidebar-nav {
+  flex-grow: 1;
+  margin-top: 20px;
+}
+
+.sidebar-nav ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--color-texto);
+  text-decoration: none;
+  border-radius: 10px;
+  font-family: var(--fuente-titulos);
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav a:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--color-naranja);
+  padding-left: 22px;
+}
+
+.nav-item.activo a {
+  background: var(--color-naranja-glow);
+  color: var(--color-naranja);
+  border-left: 4px solid var(--color-naranja);
+}
+
+/* ── BARRA SUPERIOR (Centro) ── */
+.topbar {
+  position: fixed;
+  top: 20px;
+  left: 320px;  
+  right: 380px; 
+  height: 60px;
+  z-index: 1000;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--borde-glass);
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: var(--sombra-glass);
+}
+
+.topbar-titulo { display: flex; align-items: baseline; gap: 15px; }
+.topbar-titulo h1 { font-family: var(--fuente-titulos); font-size: 20px; color: var(--color-texto-fuerte); text-transform: uppercase; }
+.topbar-subtitulo { font-size: 12px; color: var(--color-texto-suave); }
+
+.btn-toggle-sidebar { background: none; border: none; color: var(--color-texto-fuerte); font-size: 20px; cursor: pointer; }
+
+.btn-accion { background: transparent; border: 1px solid var(--color-naranja); color: var(--color-naranja); padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: 0.3s; font-family: var(--fuente-datos); font-size: 12px;}
+.btn-accion:hover { background: var(--color-naranja); color: #fff; }
+
+/* ── PANEL FLOTANTE (Derecha - Operarios y Zonas) ── */
+.panel-flotante {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  bottom: 20px;
+  width: 340px;
+  z-index: 1000;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--borde-glass);
+  border-radius: 16px;
+  box-shadow: var(--sombra-glass);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.panel-header h2 { font-family: var(--fuente-titulos); font-size: 18px; color: var(--color-texto-fuerte); text-transform: uppercase; }
+.panel-badge { background: var(--color-verde-glow); color: var(--color-verde); border: 1px solid var(--color-verde); padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+
+.panel-filtro { margin-bottom: 15px; }
+.input-filtro { width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.6); border: 1px solid var(--borde-glass); border-radius: 8px; color: var(--color-texto-fuerte); font-family: var(--fuente-datos); font-size: 12px; outline: none; transition: 0.3s; }
+.input-filtro:focus { border-color: var(--color-naranja); box-shadow: 0 0 8px var(--color-naranja-glow); background: #ffffff; }
+
+.lista-operarios, .lista-zonas { list-style: none; overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 8px; padding-right: 5px; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.05); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--color-naranja); border-radius: 4px; }
+
+.operario-item {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--borde-glass);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.operario-item:hover { background: rgba(255, 255, 255, 0.9); transform: translateX(-4px); border-color: rgba(242, 101, 34, 0.5); box-shadow: var(--sombra-glass); }
+.operario-nombre { font-weight: 600; color: var(--color-texto-fuerte); font-size: 13px; }
+.operario-producto { font-size: 11px; color: var(--color-texto-suave); }
+.operario-producto span { color: var(--color-naranja); font-weight: 600; }
+
+.panel-divider { margin: 15px 0; border-bottom: 1px solid var(--borde-glass); text-align: center; line-height: 0.1em; }
+.panel-divider span { background: #ffffff; padding: 0 10px; font-size: 11px; color: var(--color-texto-suave); border-radius: 4px; }
+
+/* ── LEYENDA DEL MAPA (Abajo Centro) ── */
+.leyenda-mapa {
+  position: fixed;
+  bottom: 20px;
+  left: 320px;
+  z-index: 1000;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--borde-glass);
+  padding: 10px 16px;
+  border-radius: 12px;
+  display: flex;
+  gap: 20px;
+  box-shadow: var(--sombra-glass);
+}
+
+.leyenda-item { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--color-texto-fuerte); }
+.leyenda-pin { width: 12px; height: 12px; border-radius: 50%; }
+.pin-operario { background: var(--color-verde); box-shadow: 0 0 8px var(--color-verde); }
+.pin-zona { background: rgba(242, 101, 34, 0.5); border: 2px solid var(--color-naranja); }
+
+/* ── ESTADOS Y REFRESCO (Sidebar Inferior) ── */
+.sidebar-estado { display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 15px; border-top: 1px solid var(--borde-glass); font-size: 12px; color: var(--color-texto-fuerte);}
+.estado-dot { width: 10px; height: 10px; background-color: var(--color-verde); border-radius: 50%; box-shadow: 0 0 8px var(--color-verde); }
+.sidebar-refresco { margin-top: 15px; font-size: 11px; color: var(--color-texto-suave); display: flex; flex-direction: column; gap: 5px; }
+.refresco-barra-contenedor { width: 100%; height: 4px; background: rgba(0,0,0,0.05); border-radius: 2px; overflow: hidden; }
+.refresco-barra { height: 100%; background: var(--color-naranja); width: 100%; transition: width 1s linear; }
+
+
+/* ── FIX ALTURA DEL MAPA ── */
+.contenido-principal {
+  position: fixed;
+  top: 0;
+  left: 300px;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.mapa-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#mapa {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}

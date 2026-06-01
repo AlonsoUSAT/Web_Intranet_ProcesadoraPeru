@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Procesadora Perú S.A.C. — Monitor GIS</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       SIDEBAR LATERAL
+  ═══════════════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-logo">
+      <span class="logo-icono">🌿</span>
+      <div class="logo-texto">
+        <span class="logo-empresa">Procesadora</span>
+        <span class="logo-pais">Perú S.A.C.</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="nav-item activo">
+          <a href="index.html">
+            <span class="nav-icono">🗺️</span>
+            <span class="nav-label">Monitor GIS</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="reporte-panel.html">
+            <span class="nav-icono">👷</span>
+            <span class="nav-label">Acopio logistico</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="reporte-permanencia.html">
+            <span class="nav-icono">📦</span>
+            <span class="nav-label">Permanencia y tiempos</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="reporte-incidencias.html">
+            <span class="nav-icono">📋</span>
+            <span class="nav-label">Incidencias</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Indicador de estado de conexión -->
+    <div class="sidebar-estado">
+      <div class="estado-dot" id="estadoDot"></div>
+      <span class="estado-texto" id="estadoTexto">Conectando...</span>
+    </div>
+
+    <!-- Próximo refresco -->
+    <div class="sidebar-refresco">
+      <div class="refresco-barra-contenedor">
+        <div class="refresco-barra" id="refrescoBarra"></div>
+      </div>
+      <span class="refresco-label">Refresco en <span id="cuentaRegresiva">15</span>s</span>
+    </div>
+
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════
+       CONTENIDO PRINCIPAL
+  ═══════════════════════════════════════════════ -->
+  <main class="contenido-principal">
+
+    <!-- Barra superior -->
+    <header class="topbar">
+      <button class="btn-toggle-sidebar" id="btnToggleSidebar" title="Ocultar/Mostrar menú">☰</button>
+      <div class="topbar-titulo">
+        <h1>Monitor GIS en Tiempo Real</h1>
+        <span class="topbar-subtitulo" id="topbarFecha"></span>
+      </div>
+      <div class="topbar-acciones">
+        <button class="btn-accion" id="btnRefrescar" title="Refrescar ahora">⟳ Refrescar</button>
+        <button class="btn-accion btn-centrar" id="btnCentrar" title="Centrar mapa">⊹ Centrar</button>
+      </div>
+    </header>
+
+    <!-- Área del mapa -->
+    <div class="mapa-wrapper">
+      <div id="mapa"></div>
+
+      <!-- Panel flotante: Lista de Operarios -->
+      <aside class="panel-flotante" id="panelOperarios">
+        <div class="panel-header">
+          <h2>Operarios en Proceso</h2>
+          <span class="panel-badge" id="contadorOperarios">0</span>
+        </div>
+
+        <div class="panel-filtro">
+          <input
+            type="text"
+            id="filtroOperario"
+            class="input-filtro"
+            placeholder="🔍 Buscar operario..."
+          />
+        </div>
+
+        <ul class="lista-operarios" id="listaOperarios">
+          <!-- Se llena dinámicamente con JS -->
+          <li class="operario-vacio">Cargando operarios...</li>
+        </ul>
+
+        <!-- Sección de Zonas de Acopio detectadas -->
+        <div class="panel-divider">
+          <span>Zonas Detectadas (DBSCAN)</span>
+        </div>
+
+        <ul class="lista-zonas" id="listaZonas">
+          <li class="zona-vacia">Sin zonas detectadas aún</li>
+        </ul>
+      </aside>
+
+      <!-- Leyenda del mapa -->
+      <div class="leyenda-mapa">
+        <div class="leyenda-item">
+          <span class="leyenda-pin pin-operario"></span>
+          <span>Operario activo</span>
+        </div>
+        <div class="leyenda-item">
+          <span class="leyenda-pin pin-zona"></span>
+          <span>Zona de acopio</span>
+        </div>
+      </div>
+
+    </div><!-- /mapa-wrapper -->
+
+  </main>
+  <!-- ✅ Solo Leaflet UNA vez, antes de app.js -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

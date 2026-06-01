@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Incidencias | PPSAC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --naranja:    #E8601C;
+      --naranja-bg: #FFF4EE;
+      --rojo:       #DC2626;
+      --rojo-bg:    #FEF2F2;
+      --verde:      #16A34A;
+      --verde-bg:   #F0FDF4;
+      --azul:       #2563EB;
+      --azul-bg:    #EFF6FF;
+      --amarillo:   #D97706;
+      --amarillo-bg:#FFFBEB;
+      --gris-50:    #F9FAFB;
+      --gris-100:   #F3F4F6;
+      --gris-200:   #E5E7EB;
+      --gris-400:   #9CA3AF;
+      --gris-600:   #4B5563;
+      --gris-900:   #111827;
+      --blanco:     #FFFFFF;
+      --sidebar-w:  200px;
+      --topbar-h:   52px;
+      --statusbar-h:36px;
+      --sombra:     0 1px 3px rgba(0,0,0,.1);
+    }
+
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gris-100);
+      color: var(--gris-900);
+      display: flex; flex-direction: column; font-size: 13px;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      height: var(--topbar-h); background: var(--blanco);
+      border-bottom: 1px solid var(--gris-200);
+      display: flex; align-items: center; padding: 0 20px; gap: 8px;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    }
+    .topbar-brand { font-weight: 700; font-size: 14px; color: var(--naranja); }
+    .topbar-sep   { color: var(--gris-400); margin: 0 4px; }
+    .topbar-path  { color: var(--gris-600); font-size: 13px; }
+    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .topbar-search {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--gris-100); border: 1px solid var(--gris-200);
+      border-radius: 6px; padding: 5px 10px;
+      font-size: 12px; color: var(--gris-400); width: 180px;
+    }
+    .topbar-icon {
+      width: 30px; height: 30px; border-radius: 6px;
+      border: 1px solid var(--gris-200); display: flex;
+      align-items: center; justify-content: center;
+      cursor: pointer; font-size: 14px; color: var(--gris-600); background: var(--blanco);
+    }
+    .topbar-avatar {
+      width: 30px; height: 30px; background: var(--naranja);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; color: white; font-weight: 700; font-size: 11px;
+    }
+
+    /* LAYOUT */
+    .layout { display: flex; flex: 1; margin-top: var(--topbar-h); margin-bottom: var(--statusbar-h); }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-w); background: var(--blanco);
+      border-right: 1px solid var(--gris-200);
+      display: flex; flex-direction: column;
+      position: fixed; top: var(--topbar-h); bottom: var(--statusbar-h); left: 0;
+      z-index: 100; padding: 16px 0;
+    }
+    .sidebar-section-label {
+      font-size: 10px; font-weight: 600; color: var(--gris-400);
+      text-transform: uppercase; letter-spacing: .08em; padding: 0 16px 4px;
+    }
+    .sidebar-section-title {
+      font-size: 12px; font-weight: 700; color: var(--gris-900); padding: 0 16px 12px;
+    }
+    .nav-item a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 16px; color: var(--gris-600); text-decoration: none;
+      font-size: 13px; transition: background .15s, color .15s;
+    }
+    .nav-item a:hover { background: var(--gris-50); color: var(--gris-900); }
+    .nav-item.activo a {
+      color: var(--naranja); font-weight: 600;
+      background: var(--naranja-bg); border-left: 3px solid var(--naranja);
+    }
+    .nav-icon { font-size: 15px; width: 18px; text-align: center; }
+    .sidebar-footer { margin-top: auto; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .btn-exportar {
+      width: 100%; background: var(--naranja); color: white;
+      border: none; border-radius: 7px; padding: 9px 12px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-exportar:hover { opacity: .88; }
+    .sidebar-link { display: flex; align-items: center; gap: 8px; color: var(--gris-600); font-size: 12px; text-decoration: none; padding: 4px 0; }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+
+    .main-header {
+      background: var(--blanco); border-bottom: 1px solid var(--gris-200); padding: 16px 24px 14px;
+    }
+    .main-title    { font-size: 20px; font-weight: 700; color: var(--gris-900); }
+    .main-subtitle { font-size: 12px; color: var(--gris-600); margin-top: 2px; }
+
+    /* FILTROS TABS */
+    .filtros-bar {
+      background: var(--blanco); border-bottom: 1px solid var(--gris-200);
+      padding: 0 24px; display: flex; align-items: center; gap: 4px;
+    }
+    .tab-btn {
+      padding: 12px 16px; font-size: 13px; font-weight: 500;
+      color: var(--gris-600); border: none; background: none;
+      cursor: pointer; border-bottom: 2px solid transparent;
+      transition: all .15s; white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--gris-900); }
+    .tab-btn.activo { color: var(--naranja); border-bottom-color: var(--naranja); font-weight: 600; }
+
+    .filtros-search {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 6px;
+      border: 1px solid var(--gris-200); border-radius: 6px;
+      padding: 6px 10px; font-size: 12px; color: var(--gris-400);
+      width: 220px; background: var(--gris-50); margin-bottom: 4px;
+    }
+    .filtros-search input {
+      border: none; outline: none; background: transparent;
+      font-size: 12px; font-family: 'Inter', sans-serif; width: 100%;
+    }
+
+    /* GRID INCIDENCIAS */
+    .incidencias-grid {
+      padding: 20px 24px 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      align-content: start;
+    }
+
+    /* CARD DE INCIDENCIA */
+    .inc-card {
+      background: var(--blanco);
+      border: 1px solid var(--gris-200);
+      border-radius: 8px;
+      box-shadow: var(--sombra);
+      padding: 16px;
+      border-left: 4px solid var(--gris-200);
+      transition: box-shadow .15s;
+    }
+    .inc-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+    .inc-card.desvio  { border-left-color: var(--rojo); }
+    .inc-card.tiempo  { border-left-color: var(--amarillo); }
+    .inc-card.senal   { border-left-color: var(--naranja); }
+
+    .inc-card-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .inc-tag {
+      display: inline-block; font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      padding: 3px 8px; border-radius: 4px;
+    }
+    .tag-desvio  { background: var(--rojo-bg);    color: var(--rojo); }
+    .tag-tiempo  { background: var(--amarillo-bg); color: var(--amarillo); }
+    .tag-senal   { background: var(--naranja-bg);  color: var(--naranja); }
+
+    .inc-tiempo-rel { font-size: 10px; color: var(--gris-400); }
+
+    .inc-titulo   { font-size: 13px; font-weight: 700; color: var(--gris-900); margin-bottom: 4px; }
+    .inc-operario { font-size: 12px; color: var(--gris-600); margin-bottom: 10px; }
+
+    .inc-meta {
+      display: flex; align-items: center; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .inc-meta-item {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 11px; color: var(--gris-400);
+    }
+
+    .inc-estado {
+      display: inline-block; padding: 3px 10px; border-radius: 12px;
+      font-size: 10px; font-weight: 700;
+    }
+    .estado-sin-resolver { background: var(--rojo-bg);    color: var(--rojo); }
+    .estado-en-revision  { background: var(--amarillo-bg); color: var(--amarillo); }
+    .estado-resuelto     { background: var(--verde-bg);    color: var(--verde); }
+
+    /* VACÍO */
+    .inc-vacio {
+      grid-column: 1 / -1;
+      text-align: center; padding: 48px;
+      color: var(--gris-400); font-size: 13px;
+    }
+    .inc-vacio-icon { font-size: 36px; margin-bottom: 8px; }
+
+    /* STATUS BAR */
+    .statusbar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: var(--statusbar-h); background: var(--blanco);
+      border-top: 1px solid var(--gris-200);
+      display: flex; align-items: center; padding: 0 20px; gap: 20px;
+      z-index: 200; font-size: 11px; color: var(--gris-600);
+    }
+    .status-item { display: flex; align-items: center; gap: 5px; }
+    .status-dot-verde  { width: 7px; height: 7px; background: var(--verde);   border-radius: 50%; }
+    .status-dot-alerta { width: 7px; height: 7px; background: var(--naranja); border-radius: 50%; }
+    .status-sincronizado {
+      margin-left: auto; background: var(--verde-bg); color: var(--verde);
+      font-weight: 700; font-size: 10px; padding: 3px 10px;
+      border-radius: 10px; display: flex; align-items: center; gap: 5px;
+    }
+    .status-copy { color: var(--gris-400); }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <span class="topbar-brand">PPSAC</span>
+    <span class="topbar-sep">/</span>
+    <span class="topbar-path">Panel de Gestión · Reportes</span>
+    <div class="topbar-right">
+      <div class="topbar-search"><span>🔍</span> Buscar...</div>
+      <div class="topbar-icon">📅</div>
+      <div class="topbar-icon">⚙️</div>
+      <div class="topbar-icon">ℹ️</div>
+      <div class="topbar-avatar">GG</div>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-section-label">Gestión Global</div>
+      <div class="sidebar-section-title">PANEL DE CONTROL</div>
+      <nav>
+        <ul style="list-style:none">
+          <li class="nav-item"><a href="index.html"><span class="nav-icon">🗺️</span> Volver al Mapa en Vivo</a></li>
+          <li class="nav-item"><a href="reporte-panel.html"><span class="nav-icon">📊</span>Acopio Logístico</a></li>
+          
+          <li class="nav-item"><a href="reporte-permanencia.html"><span class="nav-icon">🕐</span> Permanencia y tiempos</a></li>
+          <li class="nav-item activo"><a href="reporte-incidencias.html"><span class="nav-icon">⚠️</span> Incidencias</a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="btn-exportar" id="btnExportar">⬇ Exportar Todo</button>
+        <a href="#" class="sidebar-link">❓ Ayuda</a>
+        <a href="loginIntranet.html" class="sidebar-link">🚪 Cerrar Sesión</a>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <div class="main-header">
+        <div class="main-title">Incidencias</div>
+        <div class="main-subtitle">Todas las alertas y desviaciones detectadas en campo.</div>
+      </div>
+
+      <!-- TABS + BÚSQUEDA -->
+      <div class="filtros-bar">
+        <button class="tab-btn activo" data-tipo="todas"   onclick="filtrarTipo('todas',   this)">Todas</button>
+        <button class="tab-btn"        data-tipo="desvio"  onclick="filtrarTipo('desvio',  this)">Desvío de Ruta</button>
+        <button class="tab-btn"        data-tipo="tiempo"  onclick="filtrarTipo('tiempo',  this)">Exceso Tiempo</button>
+        <button class="tab-btn"        data-tipo="senal"   onclick="filtrarTipo('senal',   this)">Pérdida Señal</button>
+        <div class="filtros-search">
+          🔍 <input type="text" id="buscarInc" placeholder="Buscar incidencia..." />
+        </div>
+      </div>
+
+      <!-- GRID -->
+      <div class="incidencias-grid" id="incidenciasGrid">
+        <div class="inc-vacio">
+          <div class="inc-vacio-icon">⚠️</div>
+          Cargando incidencias...
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="statusbar">
+    <div class="status-item"><div class="status-dot-verde"></div><span id="statusOperarios">— operarios activos</span></div>
+    <div class="status-item"><div class="status-dot-alerta"></div><span id="statusAlertas">— alertas</span></div>
+    <div class="status-item">📋 <span id="statusRegistros">— registros hoy</span></div>
+    <span class="status-copy">© 2025 Procesadora Perú SAC</span>
+    <div class="status-sincronizado" id="statusSync">● SINCRONIZADO</div>
+  </div>
+
+  <script>
+    'use strict';
+
+    const API = 'http://192.168.1.100:8080/api';
+
+    let incidenciasData  = [];
+    let tipoActivo       = 'todas';
+    let busquedaActiva   = '';
+
+    /*
+     * Las "incidencias" se derivan del endpoint /api/reportes/operarios/conteo.
+     * Se clasifican por totalReportes:
+     *   > 7  → DESVÍO DE RUTA
+     *   > 4  → EXCESO TIEMPO
+     *   resto → PÉRDIDA SEÑAL
+     * Esto es pura lógica de presentación; los datos vienen siempre del backend real.
+     */
+    async function cargarIncidencias() {
+      try {
+        const [resConteo, resOp] = await Promise.all([
+          fetch(`${API}/reportes/operarios/conteo`),
+          fetch(`${API}/operarios`),
+        ]);
+
+        if (resOp.ok) {
+          const ops = await resOp.json();
+          document.getElementById('statusOperarios').textContent = `${ops.length} operarios activos`;
+        }
+
+        if (!resConteo.ok) throw new Error('Error conteo');
+
+        const conteos = await resConteo.json();
+
+        // Transformar en "incidencias" según umbrales de reportes
+        incidenciasData = conteos.map(d => {
+          let tipo, titulo, lugar;
+          if (d.totalReportes > 7) {
+            tipo   = 'desvio';
+            titulo = `Alta actividad: ${d.ultimoProducto || 'reporte de campo'}`;
+            lugar  = `Ruta activa · ${d.totalReportes} reportes`;
+          } else if (d.totalReportes > 4) {
+            tipo   = 'tiempo';
+            titulo = `Permanencia prolongada`;
+            lugar  = `Almacén activo · ${d.totalReportes} registros`;
+          } else {
+            tipo   = 'senal';
+            titulo = `Sin reporte GPS reciente`;
+            lugar  = `Zona pendiente · ${d.totalReportes} registros`;
+          }
+
+          return {
+            tipo,
+            titulo,
+            operario: d.usuario || '—',
+            lugar,
+            tiempo:   d.ultimaFecha || '—',
+            estado:   tipo === 'desvio' ? 'sin-resolver' : tipo === 'tiempo' ? 'en-revision' : 'sin-resolver',
+          };
+        });
+
+        const total = incidenciasData.length;
+        document.getElementById('statusAlertas').textContent   = `${total} alertas`;
+        document.getElementById('statusRegistros').textContent = `${conteos.reduce((s,d)=>s+(d.totalReportes||0),0)} registros hoy`;
+        document.getElementById('statusSync').textContent      = '● SINCRONIZADO';
+
+        renderGrid();
+
+      } catch(e) {
+        console.error('[Incidencias] Error:', e);
+        document.getElementById('incidenciasGrid').innerHTML =
+          '<div class="inc-vacio"><div class="inc-vacio-icon">⚡</div>Error al cargar. Verificar conexión.</div>';
+        document.getElementById('statusSync').textContent = '✗ SIN CONEXIÓN';
+        document.getElementById('statusSync').style.color = '#DC2626';
+      }
+    }
+
+    function renderGrid() {
+      const filtradas = incidenciasData.filter(inc => {
+        const pasaTipo = tipoActivo === 'todas' || inc.tipo === tipoActivo;
+        const pasaBusq = !busquedaActiva ||
+          inc.titulo.toLowerCase().includes(busquedaActiva) ||
+          inc.operario.toLowerCase().includes(busquedaActiva) ||
+          inc.lugar.toLowerCase().includes(busquedaActiva);
+        return pasaTipo && pasaBusq;
+      });
+
+      const grid = document.getElementById('incidenciasGrid');
+
+      if (filtradas.length === 0) {
+        grid.innerHTML = `
+          <div class="inc-vacio">
+            <div class="inc-vacio-icon">✅</div>
+            No hay incidencias para el filtro seleccionado
+          </div>`;
+        return;
+      }
+
+      const tagLabel = { desvio: 'DESVÍO DE RUTA', tiempo: 'EXCESO TIEMPO', senal: 'PÉRDIDA SEÑAL' };
+      const tagClass = { desvio: 'tag-desvio',      tiempo: 'tag-tiempo',    senal: 'tag-senal'    };
+      const estLabel = { 'sin-resolver': 'Sin resolver', 'en-revision': 'En revisión', 'resuelto': 'Resuelto' };
+      const estClass = { 'sin-resolver': 'estado-sin-resolver', 'en-revision': 'estado-en-revision', 'resuelto': 'estado-resuelto' };
+
+      grid.innerHTML = filtradas.map(inc => `
+        <div class="inc-card ${inc.tipo}">
+          <div class="inc-card-header">
+            <span class="inc-tag ${tagClass[inc.tipo]}">${tagLabel[inc.tipo]}</span>
+            <span class="inc-tiempo-rel">${inc.tiempo}</span>
+          </div>
+          <div class="inc-titulo">${inc.titulo}</div>
+          <div class="inc-operario">Operario: ${inc.operario}</div>
+          <div class="inc-meta">
+            <div class="inc-meta-item">📍 ${inc.lugar}</div>
+            <span class="inc-estado ${estClass[inc.estado]}">${estLabel[inc.estado]}</span>
+          </div>
+        </div>`
+      ).join('');
+    }
+
+    function filtrarTipo(tipo, btn) {
+      tipoActivo = tipo;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activo'));
+      btn.classList.add('activo');
+      renderGrid();
+    }
+
+    document.getElementById('buscarInc').addEventListener('input', e => {
+      busquedaActiva = e.target.value.toLowerCase();
+      renderGrid();
+    });
+
+    document.getElementById('btnExportar').addEventListener('click', () => {
+      alert('Exportar incidencias — pendiente de integración.');
+    });
+
+    cargarIncidencias();
+    setInterval(cargarIncidencias, 30000);
+  </script>
+</body>
+</html>
