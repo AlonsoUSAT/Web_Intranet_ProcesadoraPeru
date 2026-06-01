@@ -54,7 +54,7 @@ export default function Products() {
   }, []);
 
   const categories = ['Todos', ...new Set(products.map(p => p.category))];
-  // Derived state
+  
   // Derived state - SOLO filtra por categoría para el Grid
   const filteredProducts = products.filter(p => {
     return activeCategory === 'Todos' || p.category === activeCategory;
@@ -72,6 +72,7 @@ export default function Products() {
 
       {/* Main Wrapper */}
       <div className="w-full bg-[#FAFAFA] min-h-screen pt-[30px] pb-16 font-body">
+        
         {/* --- CONTROLES SUPERIORES (Filtros y Selector Premium) --- */}
         <div className="max-w-[1280px] mx-auto px-6 md:px-12 mb-12 flex flex-col lg:flex-row justify-between items-center gap-6">
 
@@ -82,14 +83,18 @@ export default function Products() {
                 key={category}
                 onClick={() => {
                   setActiveCategory(category);
-                  setSelectedProductId('all');
+                  const firstProductOfCategory = products.find(p =>
+                    category === 'Todos' ? true : p.category === category
+                  );
+                  if (firstProductOfCategory) {
+                    setSelectedProductId(firstProductOfCategory.id.toString());
+                  }
                 }}
-                className={`px-6 py-3 md:py-2.5 rounded-full font-body text-base md:text-sm font-semibold transition-all shadow-sm md:shadow-none hover:shadow-md ${activeCategory === category
-                  ? 'bg-[#954500] text-white shadow-md'
-                  : 'bg-white text-[#554339] border border-[#E4E4E7] hover:border-[#954500] hover:text-[#954500]'
+                className={`px-6 py-2.5 rounded-full font-semibold transition-all ${activeCategory === category
+                  ? 'bg-[#954500] text-white' 
+                  : 'bg-white text-[#554339] border border-gray-200 hover:border-[#954500]'
                   }`}
               >
-                {/* Lógica de traducción dinámica */}
                 {category === 'Todos' ? t.productos.all : (t.productos[`cat${category}`] || category)}
               </button>
             ))}
@@ -102,7 +107,10 @@ export default function Products() {
             </div>
             <select
               value={selectedProductId}
-              onChange={(e) => setSelectedProductId(e.target.value)}
+              onChange={(e) => {
+                setSelectedProductId(e.target.value);
+                document.getElementById('showcase-section')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="w-full appearance-none bg-white border border-[#E4E4E7] text-[#1B1C1C] font-semibold text-base md:text-sm rounded-full py-4 md:py-3 pl-12 pr-10 outline-none transition-all focus:border-[#954500] focus:ring-2 focus:ring-[#954500]/20 shadow-sm cursor-pointer"
             >
               <option value="all">{t.productos.searchPlaceholder}</option>
@@ -118,30 +126,120 @@ export default function Products() {
           </div>
         </div>
 
-        {/* --- SHOWCASE DEL PRODUCTO (Replicando la Imagen) --- */}
+        {/* --- CATÁLOGO GRID (Ahora arriba del Showcase) --- */}
+        <div className="max-w-[1280px] mx-auto px-6 md:px-12 mb-16 md:mb-24">
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="w-12 h-12 border-4 border-[#F4F4F5] border-t-[#954500] rounded-full animate-spin"></div>
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center gap-4 mb-8">
+                <h2 className="text-[#1B1C1C] font-heading text-xl md:text-2xl font-bold">
+                  {/* CAMBIO DE TEXTO AQUÍ */}
+                  {t.productos.ourProducts || 'Nuestros Productos'}
+                </h2>
+                <div className="h-px bg-[#E4E4E7] flex-1"></div>
+              </div>
+
+              <motion.div
+                layout
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
+              >
+                <AnimatePresence>
+                  {filteredProducts.map((product) => (
+                    <motion.div
+                      key={product.id}
+                      layout
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-white border border-[#E4E4E7] rounded-xl overflow-hidden group hover:shadow-xl transition-all cursor-pointer flex flex-col"
+                      onClick={() => {
+                        setSelectedProductId(product.id.toString());
+                        setQuantity(1);
+                        // MAGIA AQUÍ: Ahora hace scroll hacia abajo, directo al detalle del producto
+                        document.getElementById('showcase-section')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      {/* Image Container */}
+                      <div className="h-[240px] w-full overflow-hidden relative shrink-0">
+                        <div
+                          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                          style={{
+                            backgroundImage: `url('${productImages[product.id] || product.image}')`,
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover' 
+                          }}
+                        />
+                        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[#1B1C1C] text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-sm uppercase tracking-wider shadow-sm">
+                          {product.category}
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-5 md:p-6 flex flex-col flex-grow">
+                        <h3 className="text-[#1B1C1C] font-heading text-lg md:text-xl font-bold mb-2 group-hover:text-[#954500] transition-colors">{product.name}</h3>
+                        <p className="text-[#554339] font-body text-sm mb-4 line-clamp-2 flex-grow">
+                          {product.description}
+                        </p>
+                        <div className="flex items-center gap-2 pt-4 border-t border-[#F4F4F5] mt-auto">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#954500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                          <span className="text-[#71717A] font-body text-[10px] md:text-xs font-semibold uppercase tracking-wider">{product.origin}</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+
+              {!isLoading && filteredProducts.length === 0 && (
+                <div className="text-center py-24 bg-white rounded-xl border border-[#E4E4E7]">
+                  <p className="text-[#71717A] text-base md:text-lg font-body">{t.productos.noProducts}</p>
+                  <button
+                    onClick={() => { setActiveCategory('Todos'); setSelectedProductId('all'); }}
+                    className="mt-4 text-[#954500] font-bold hover:underline"
+                  >
+                    {t.productos.viewAll}
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+
+        {/* --- SHOWCASE DEL PRODUCTO (Detalles Ampliados) --- */}
         {!isLoading && showcaseProduct && (
           <motion.div
+            id="showcase-section" // <--- Agregamos este ID para que el clic baje hasta aquí
             key={showcaseProduct.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-[1280px] mx-auto px-6 md:px-12 mb-16 md:mb-24 flex flex-col gap-12"
+            className="max-w-[1280px] mx-auto px-6 md:px-12 flex flex-col gap-12"
           >
             {/* 1. Header Showcase */}
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
               {/* Imagen Izquierda */}
-              <div className="w-full lg:w-3/5 relative">
+              <div className="w-full lg:w-3/5 relative h-[300px] md:h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-sm">
+                
                 <div
-                  className="w-full h-[300px] md:h-[400px] lg:h-[500px] bg-white rounded-xl shadow-sm bg-cover bg-center"
+                  className="absolute inset-0 bg-cover bg-center"
                   style={{ backgroundImage: `url('${productImages[showcaseProduct.id] || showcaseProduct.image}')` }}
                 />
-                {/* Export Grade Quality Badge */}
-                <div className="absolute -bottom-6 right-4 md:right-8 lg:-right-6 bg-[#AEF27A] rounded-lg shadow-lg p-4 md:p-6 w-[140px] md:w-[160px] transform rotate-3">
-                  <svg className="mb-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#377000" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                
+                <div className="absolute bottom-4 right-4 bg-[#AEF27A] rounded-lg shadow-md px-4 py-2 md:px-5 md:py-3 flex items-center gap-2 z-10">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#377000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
                   <span className="text-[#377000] font-heading font-bold text-xs md:text-sm leading-tight block">
                     {t.productos.exportGrade}
                   </span>
                 </div>
+
               </div>
 
               {/* Contenido Derecha */}
@@ -177,8 +275,8 @@ export default function Products() {
                             setSelectedProductId(variedad.id);
                             setQuantity(1);
                           }} className={`py-3 md:py-2.5 rounded-sm font-semibold shadow-sm transition-colors ${showcaseProduct.id.toString() === variedad.id
-                            ? 'border-2 border-[#954500] text-[#954500] bg-white' // Botón Seleccionado
-                            : 'border border-[#D4D4D8] text-[#52525B] bg-white hover:border-[#954500]' // Botón Inactivo
+                            ? 'border-2 border-[#954500] text-[#954500] bg-white' 
+                            : 'border border-[#D4D4D8] text-[#52525B] bg-white hover:border-[#954500]' 
                             }`}
                         >
                           {variedad.name}
@@ -295,7 +393,7 @@ export default function Products() {
                   {t.productos.industrialPrecision}
                 </h2>
                 <p className="text-[#554339] font-body text-sm md:text-base leading-relaxed mb-6">
-                  {t.productos.industrialDesc1.replace('{name}', showcaseProduct.name)}
+                  {t.productos.industrialDesc1?.replace('{name}', showcaseProduct.name) || `En Procesadora Perú SAC, nuestras variedades de ${showcaseProduct.name} representan la cúspide de la tecnología agroindustrial.`}
                 </p>
                 <p className="text-[#554339] font-body text-sm md:text-base leading-relaxed mb-8 md:mb-10">
                   {t.productos.industrialDesc2}
@@ -321,86 +419,6 @@ export default function Products() {
             </div>
           </motion.div>
         )}
-
-
-        {/* --- CATÁLOGO GRID (Operacional) --- */}
-        <div className="max-w-[1280px] mx-auto px-6 md:px-12">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <div className="w-12 h-12 border-4 border-[#F4F4F5] border-t-[#954500] rounded-full animate-spin"></div>
-            </div>
-          ) : (
-            <>
-              <div className="flex items-center gap-4 mb-8">
-                <h2 className="text-[#1B1C1C] font-heading text-xl md:text-2xl font-bold">{t.productos.exploreCatalog}</h2>
-                <div className="h-px bg-[#E4E4E7] flex-1"></div>
-              </div>
-
-              <motion.div
-                layout
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
-              >
-                <AnimatePresence>
-                  {filteredProducts.map((product) => (
-                    <motion.div
-                      key={product.id}
-                      layout
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.3 }}
-                      className="bg-white border border-[#E4E4E7] rounded-xl overflow-hidden group hover:shadow-xl transition-all cursor-pointer flex flex-col"
-                      onClick={() => {
-                        setSelectedProductId(product.id.toString());
-                        setQuantity(1);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
-                    >
-                      {/* Image Container */}
-                      <div className="h-[240px] w-full overflow-hidden relative shrink-0">
-                        <div
-                          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                          style={{
-                            backgroundImage: `url('${productImages[product.id] || product.image}')`,
-                            backgroundPosition: 'center', // Asegura que el centro de la fruta siempre se vea
-                            backgroundSize: 'cover'        // Llena el espacio sin estirar la imagen
-                          }}
-                        />
-                        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[#1B1C1C] text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-sm uppercase tracking-wider shadow-sm">
-                          {product.category}
-                        </div>
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-5 md:p-6 flex flex-col flex-grow">
-                        <h3 className="text-[#1B1C1C] font-heading text-lg md:text-xl font-bold mb-2 group-hover:text-[#954500] transition-colors">{product.name}</h3>
-                        <p className="text-[#554339] font-body text-sm mb-4 line-clamp-2 flex-grow">
-                          {product.description}
-                        </p>
-                        <div className="flex items-center gap-2 pt-4 border-t border-[#F4F4F5] mt-auto">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#954500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                          <span className="text-[#71717A] font-body text-[10px] md:text-xs font-semibold uppercase tracking-wider">{product.origin}</span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </motion.div>
-
-              {!isLoading && filteredProducts.length === 0 && (
-                <div className="text-center py-24 bg-white rounded-xl border border-[#E4E4E7]">
-                  <p className="text-[#71717A] text-base md:text-lg font-body">{t.productos.noProducts}</p>
-                  <button
-                    onClick={() => { setActiveCategory('Todos'); setSelectedProductId('all'); }}
-                    className="mt-4 text-[#954500] font-bold hover:underline"
-                  >
-                    {t.productos.viewAll}
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-        </div>
 
       </div>
     </>

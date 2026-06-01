@@ -1,3 +1,4 @@
+import emailjs from '@emailjs/browser';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -40,13 +41,33 @@ export default function ComplaintsBook() {
 
   const onSubmit = async (data) => {
     try {
-      // Simular envío de datos
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log('Formulario enviado:', data);
-      toast.success(t.libroReclamaciones.toastSuccess);
-      reset();
+      // 1. Correo para TI (Empresa) - Usa el ID de la primera plantilla
+      await emailjs.send(
+        'service_kg4kdep',
+        'template_et6yjtf',
+        {
+          nombre: data.nombre,
+          correo: data.correo,
+          detalle: data.detalle,
+        },
+        '5ZMDxisO3ndxvreps'
+      );
+
+      // 2. Correo para el CLIENTE (Confirmación) - Usa el ID de la segunda plantilla
+      await emailjs.send(
+        'service_kg4kdep',
+        'template_38hq7n2',
+        {
+          nombre: data.nombre,
+          correo: data.correo,
+        },
+        '5ZMDxisO3ndxvreps'
+      );
+
+      alert('¡Enviado con éxito!');
     } catch (error) {
-      toast.error(t.libroReclamaciones.toastError);
+      console.error(error);
+      alert('Error al enviar.');
     }
   };
 
