@@ -4,297 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Permanencia y Tiempos | PPSAC</title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --naranja:    #E8601C;
-      --naranja-bg: #FFF4EE;
-      --rojo:       #DC2626;
-      --verde:      #16A34A;
-      --verde-bg:   #F0FDF4;
-      --azul:       #2563EB;
-      --gris-50:    #F9FAFB;
-      --gris-100:   #F3F4F6;
-      --gris-200:   #E5E7EB;
-      --gris-400:   #9CA3AF;
-      --gris-600:   #4B5563;
-      --gris-900:   #111827;
-      --blanco:     #FFFFFF;
-      --sidebar-w:  200px;
-      --topbar-h:   52px;
-      --statusbar-h:36px;
-      --sombra:     0 1px 3px rgba(0,0,0,.1);
-    }
+  <!-- Estilos propios -->
 
-    html, body { height: 100%; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--gris-100);
-      color: var(--gris-900);
-      display: flex;
-      flex-direction: column;
-      font-size: 13px;
-    }
-
-    /* TOPBAR */
-    .topbar {
-      height: var(--topbar-h);
-      background: var(--blanco);
-      border-bottom: 1px solid var(--gris-200);
-      display: flex; align-items: center;
-      padding: 0 20px; gap: 8px;
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-    }
-    .topbar-brand { font-weight: 700; font-size: 14px; color: var(--naranja); }
-    .topbar-sep   { color: var(--gris-400); margin: 0 4px; }
-    .topbar-path  { color: var(--gris-600); font-size: 13px; }
-    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-    .topbar-search {
-      display: flex; align-items: center; gap: 6px;
-      background: var(--gris-100); border: 1px solid var(--gris-200);
-      border-radius: 6px; padding: 5px 10px;
-      font-size: 12px; color: var(--gris-400); width: 180px;
-    }
-    .topbar-icon {
-      width: 30px; height: 30px; border-radius: 6px;
-      border: 1px solid var(--gris-200); display: flex;
-      align-items: center; justify-content: center;
-      cursor: pointer; font-size: 14px; color: var(--gris-600); background: var(--blanco);
-    }
-    .topbar-avatar {
-      width: 30px; height: 30px; background: var(--naranja);
-      border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; color: white; font-weight: 700; font-size: 11px;
-    }
-
-    /* LAYOUT */
-    .layout { display: flex; flex: 1; margin-top: var(--topbar-h); margin-bottom: var(--statusbar-h); }
-
-    /* SIDEBAR */
-    .sidebar {
-      width: var(--sidebar-w); background: var(--blanco);
-      border-right: 1px solid var(--gris-200);
-      display: flex; flex-direction: column;
-      position: fixed;
-      top: var(--topbar-h); bottom: var(--statusbar-h); left: 0;
-      z-index: 100; padding: 16px 0;
-    }
-    .sidebar-section-label {
-      font-size: 10px; font-weight: 600; color: var(--gris-400);
-      text-transform: uppercase; letter-spacing: .08em; padding: 0 16px 4px;
-    }
-    .sidebar-section-title {
-      font-size: 12px; font-weight: 700; color: var(--gris-900); padding: 0 16px 12px;
-    }
-    .nav-item a {
-      display: flex; align-items: center; gap: 10px;
-      padding: 8px 16px; color: var(--gris-600);
-      text-decoration: none; font-size: 13px;
-      transition: background .15s, color .15s;
-    }
-    .nav-item a:hover { background: var(--gris-50); color: var(--gris-900); }
-    .nav-item.activo a {
-      color: var(--naranja); font-weight: 600;
-      background: var(--naranja-bg);
-      border-left: 3px solid var(--naranja);
-    }
-    .nav-icon { font-size: 15px; width: 18px; text-align: center; }
-    .sidebar-footer { margin-top: auto; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
-    .btn-exportar {
-      width: 100%; background: var(--naranja); color: white;
-      border: none; border-radius: 7px; padding: 9px 12px;
-      font-size: 12px; font-weight: 600; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-    }
-    .btn-exportar:hover { opacity: .88; }
-    .sidebar-link {
-      display: flex; align-items: center; gap: 8px;
-      color: var(--gris-600); font-size: 12px; text-decoration: none; padding: 4px 0;
-    }
-
-    /* MAIN */
-    .main {
-      margin-left: var(--sidebar-w);
-      flex: 1; display: flex; flex-direction: column;
-      overflow-y: auto;
-    }
-    .main-header {
-      background: var(--blanco);
-      border-bottom: 1px solid var(--gris-200);
-      padding: 16px 24px 14px;
-    }
-    .main-label {
-      font-size: 10px; font-weight: 600; color: var(--gris-400);
-      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px;
-    }
-    .main-title  { font-size: 20px; font-weight: 700; color: var(--gris-900); }
-    .main-subtitle { font-size: 12px; color: var(--gris-600); margin-top: 2px; }
-
-    /* FILTROS */
-    .filtros-bar {
-      background: var(--blanco);
-      border-bottom: 1px solid var(--gris-200);
-      padding: 12px 24px;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .filtro-fecha {
-      display: flex; align-items: center; gap: 6px;
-      border: 1px solid var(--gris-200); border-radius: 6px;
-      padding: 6px 10px; font-size: 12px; color: var(--gris-600);
-      background: var(--blanco); cursor: pointer;
-    }
-    .filtro-fecha input[type="date"] {
-      border: none; outline: none; font-size: 12px;
-      color: var(--gris-900); font-family: 'Inter', sans-serif;
-      background: transparent;
-    }
-    .filtro-sep { color: var(--gris-400); font-size: 12px; }
-    .filtro-almacen {
-      display: flex; align-items: center; gap: 6px;
-      border: 1px solid var(--gris-200); border-radius: 6px;
-      padding: 6px 10px; font-size: 12px; color: var(--gris-900);
-      background: var(--blanco); cursor: pointer;
-    }
-    .filtro-almacen select {
-      border: none; outline: none; font-size: 12px;
-      font-family: 'Inter', sans-serif; color: var(--gris-900); background: transparent;
-    }
-    .filtros-right { margin-left: auto; display: flex; gap: 8px; }
-    .btn-export-small {
-      display: flex; align-items: center; gap: 5px;
-      padding: 6px 12px; border-radius: 6px;
-      font-size: 12px; font-weight: 600; cursor: pointer;
-      border: 1px solid var(--gris-200); background: var(--blanco);
-      color: var(--gris-600); text-decoration: none;
-      transition: background .15s;
-    }
-    .btn-export-small:hover { background: var(--gris-50); }
-    .btn-export-pdf  { color: var(--rojo);  border-color: #FECACA; }
-    .btn-export-xlsx { color: var(--verde); border-color: #BBF7D0; }
-
-    /* KPI CARDS PEQUEÑAS */
-    .kpi-row {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 16px; padding: 20px 24px 0;
-    }
-    .kpi-card {
-      background: var(--blanco); border: 1px solid var(--gris-200);
-      border-radius: 8px; padding: 16px 20px;
-      box-shadow: var(--sombra); position: relative;
-      display: flex; align-items: flex-start; justify-content: space-between;
-    }
-    .kpi-card::after {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 3px; border-radius: 8px 8px 0 0;
-    }
-    .kpi-naranja::after { background: var(--naranja); }
-    .kpi-verde::after   { background: var(--verde); }
-    .kpi-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--gris-600); margin-bottom: 6px; }
-    .kpi-val   { font-size: 32px; font-weight: 700; color: var(--gris-900); margin-bottom: 4px; }
-    .kpi-val span { font-size: 16px; font-weight: 500; color: var(--gris-600); }
-    .kpi-delta { font-size: 11px; }
-    .kpi-delta.baja  { color: var(--rojo); }
-    .kpi-delta.sube  { color: var(--verde); }
-    .kpi-icon-wrap {
-      width: 36px; height: 36px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center; font-size: 18px;
-    }
-    .kpi-naranja .kpi-icon-wrap { background: var(--naranja-bg); }
-    .kpi-verde   .kpi-icon-wrap { background: var(--verde-bg); }
-
-    /* TABLA */
-    .tabla-section { padding: 20px 24px 80px; }
-    .tabla-card {
-      background: var(--blanco); border: 1px solid var(--gris-200);
-      border-radius: 8px; box-shadow: var(--sombra); overflow: hidden;
-    }
-    .tabla-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 16px; border-bottom: 1px solid var(--gris-200);
-    }
-    .tabla-title { font-size: 13px; font-weight: 700; }
-    .tabla-buscar {
-      display: flex; align-items: center; gap: 6px;
-      border: 1px solid var(--gris-200); border-radius: 6px;
-      padding: 6px 10px; font-size: 12px; color: var(--gris-400);
-      width: 220px; background: var(--gris-50);
-    }
-    .tabla-buscar input {
-      border: none; outline: none; background: transparent;
-      font-size: 12px; font-family: 'Inter', sans-serif; width: 100%;
-    }
-
-    table { width: 100%; border-collapse: collapse; }
-    thead tr { background: var(--gris-50); }
-    thead th {
-      padding: 10px 16px; text-align: left;
-      font-size: 11px; font-weight: 600; color: var(--gris-600);
-      text-transform: uppercase; letter-spacing: .05em;
-      border-bottom: 1px solid var(--gris-200);
-    }
-    tbody tr { border-bottom: 1px solid var(--gris-200); transition: background .1s; }
-    tbody tr:hover { background: var(--naranja-bg); }
-    tbody tr:last-child { border-bottom: none; }
-    tbody td { padding: 12px 16px; color: var(--gris-900); }
-
-    .td-id { color: var(--naranja); font-weight: 600; font-size: 12px; }
-    .td-nombre { font-weight: 600; }
-    .td-tiempo-excedido { color: var(--rojo); font-weight: 700; }
-
-    .badge-estado {
-      display: inline-block; padding: 3px 10px; border-radius: 12px;
-      font-size: 11px; font-weight: 600;
-    }
-    .badge-completado { background: var(--verde-bg); color: var(--verde); }
-    .badge-activo     { background: #EFF6FF;         color: var(--azul); }
-    .badge-excedido   { background: var(--naranja-bg); color: var(--naranja); }
-
-    .tabla-footer {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 16px; border-top: 1px solid var(--gris-200);
-      font-size: 11px; color: var(--gris-600);
-    }
-
-    /* PAGINACION */
-    .paginacion { display: flex; align-items: center; gap: 4px; }
-    .pag-btn {
-      width: 28px; height: 28px; border-radius: 5px;
-      border: 1px solid var(--gris-200); background: var(--blanco);
-      font-size: 12px; cursor: pointer; display: flex;
-      align-items: center; justify-content: center; color: var(--gris-600);
-      transition: all .15s;
-    }
-    .pag-btn:hover { background: var(--naranja-bg); color: var(--naranja); border-color: var(--naranja); }
-    .pag-btn.activo { background: var(--naranja); color: white; border-color: var(--naranja); }
-
-    /* STATUS BAR */
-    .statusbar {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      height: var(--statusbar-h); background: var(--blanco);
-      border-top: 1px solid var(--gris-200);
-      display: flex; align-items: center; padding: 0 20px; gap: 20px;
-      z-index: 200; font-size: 11px; color: var(--gris-600);
-    }
-    .status-item { display: flex; align-items: center; gap: 5px; }
-    .status-dot-verde  { width: 7px; height: 7px; background: var(--verde);   border-radius: 50%; }
-    .status-dot-alerta { width: 7px; height: 7px; background: var(--naranja); border-radius: 50%; }
-    .status-sincronizado {
-      margin-left: auto; background: var(--verde-bg); color: var(--verde);
-      font-weight: 700; font-size: 10px; padding: 3px 10px;
-      border-radius: 10px; display: flex; align-items: center; gap: 5px;
-    }
-    .status-copy { color: var(--gris-400); }
-
-    /* LOADING */
-    .loading-row td { text-align: center; color: var(--gris-400); padding: 32px; }
-  </style>
+  <link rel="stylesheet" href="../css/reporte-permanencia.css">
 </head>
 <body>
 
-  <!-- TOPBAR -->
+  
   <header class="topbar">
     <span class="topbar-brand">PPSAC</span>
     <span class="topbar-sep">/</span>
@@ -310,7 +31,7 @@
 
   <div class="layout">
 
-    <!-- SIDEBAR -->
+    
     <aside class="sidebar">
       <div class="sidebar-section-label">Gestión Global</div>
       <div class="sidebar-section-title">PANEL DE CONTROL</div>
@@ -329,7 +50,7 @@
       </div>
     </aside>
 
-    <!-- MAIN -->
+   
     <main class="main">
 
       <div class="main-header">
@@ -338,7 +59,7 @@
         <div class="main-subtitle">Control de entradas, salidas y tiempos de permanencia por operario y almacén.</div>
       </div>
 
-      <!-- FILTROS -->
+     
       <div class="filtros-bar">
         <div class="filtro-fecha">
           📅 <input type="date" id="fechaInicio" />
@@ -379,7 +100,7 @@
         </div>
       </div>
 
-      <!-- TABLA -->
+     
       <div class="tabla-section">
         <div class="tabla-card">
           <div class="tabla-header">
@@ -418,7 +139,7 @@
     </main>
   </div>
 
-  <!-- STATUS BAR -->
+ 
   <div class="statusbar">
     <div class="status-item"><div class="status-dot-verde"></div><span id="statusOperarios">— operarios activos</span></div>
     <div class="status-item"><div class="status-dot-alerta"></div><span id="statusAlertas">— alertas</span></div>
@@ -427,186 +148,8 @@
     <div class="status-sincronizado" id="statusSync">● SINCRONIZADO</div>
   </div>
 
-  <script>
-    'use strict';
+ 
+  <script src="../js/reporte-permanencia.js"></script>
 
-    const API = 'http://192.168.1.100:8080/api';
-
-    // Fechas por defecto: última semana
-    const hoy = new Date();
-    const hace7 = new Date(); hace7.setDate(hoy.getDate() - 7);
-    const fmt = d => d.toISOString().split('T')[0];
-
-    document.getElementById('fechaInicio').value = fmt(hace7);
-    document.getElementById('fechaFin').value    = fmt(hoy);
-
-    // Cargar sucursales/almacenes
-    async function cargarAlmacenes() {
-      try {
-        const res = await fetch(`${API}/inventario/sucursales`);
-        if (!res.ok) return;
-        const sucursales = await res.json();
-        const sel = document.getElementById('selectorAlmacen');
-        sucursales.forEach(s => {
-          const opt = document.createElement('option');
-          opt.value = s.idSucursal;
-          opt.textContent = s.sucursal || s.idSucursal;
-          sel.appendChild(opt);
-        });
-      } catch(e) { /* sin sucursales, queda "Todos" */ }
-    }
-
-    let todosLosRegistros = [];
-    let paginaActual = 1;
-    const POR_PAGINA = 10;
-
-    async function cargarMovimientos() {
-      const fi  = document.getElementById('fechaInicio').value;
-      const ff  = document.getElementById('fechaFin').value;
-      const alm = document.getElementById('selectorAlmacen').value;
-
-      if (!fi || !ff) return;
-
-      // KPIs de operarios activos (reutiliza endpoint de monitor)
-      try {
-        const resOp = await fetch(`${API}/operarios`);
-        if (resOp.ok) {
-          const ops = await resOp.json();
-          document.getElementById('statusOperarios').textContent = `${ops.length} operarios activos`;
-        }
-      } catch(e) {}
-
-      // Datos principales del inventario / movimientos
-      try {
-        const params = new URLSearchParams({
-          idSucursal:  alm || 'TODAS',
-          idAlmacen:   alm || 'TODOS',
-          fechaInicio: fi,
-          fechaFin:    ff,
-        });
-
-        const res = await fetch(`${API}/inventario/consultar?${params}`);
-
-        if (!res.ok) throw new Error('Error al consultar inventario');
-
-        const data = await res.json();
-        todosLosRegistros = data;
-        paginaActual = 1;
-        renderTabla();
-        calcularKPIs(data);
-        document.getElementById('statusRegistros').textContent = `${data.length} registros hoy`;
-        document.getElementById('statusSync').textContent = '● SINCRONIZADO';
-
-      } catch(e) {
-        console.error('[Permanencia] Error:', e);
-        document.getElementById('tablaBody').innerHTML =
-          '<tr class="loading-row"><td colspan="7">Error al cargar datos. Verificar conexión.</td></tr>';
-        document.getElementById('statusSync').textContent = '✗ SIN CONEXIÓN';
-        document.getElementById('statusSync').style.color = '#DC2626';
-      }
-    }
-
-    function calcularKPIs(data) {
-      if (!data || data.length === 0) return;
-
-      // Tiempo promedio estimado por registros consecutivos del mismo operario
-      const totalReg = data.length;
-      const tiempoProm = totalReg > 0 ? Math.round(38 + Math.random() * 10) : 0;
-      document.getElementById('kpiTiempo').textContent   = tiempoProm;
-      document.getElementById('kpiEficiencia').textContent = '94';
-      document.getElementById('kpiTiempoDelta').textContent = '↓ 12% vs sem ant.';
-      document.getElementById('kpiEficienciaDelta').textContent = '↑ 3% vs sem ant.';
-    }
-
-    function renderTabla() {
-      const buscar = document.getElementById('buscarOperario').value.toLowerCase();
-      const filtrados = buscar
-        ? todosLosRegistros.filter(r =>
-            (r.producto || '').toLowerCase().includes(buscar) ||
-            (r.almacen  || '').toLowerCase().includes(buscar) ||
-            (r.idInventario || '').toLowerCase().includes(buscar)
-          )
-        : todosLosRegistros;
-
-      const inicio = (paginaActual - 1) * POR_PAGINA;
-      const pagina = filtrados.slice(inicio, inicio + POR_PAGINA);
-
-      const tbody = document.getElementById('tablaBody');
-
-      if (filtrados.length === 0) {
-        tbody.innerHTML = '<tr class="loading-row"><td colspan="7">No se encontraron registros</td></tr>';
-        document.getElementById('totalRegistros').textContent = 'Sin registros';
-        document.getElementById('paginacion').innerHTML = '';
-        return;
-      }
-
-      tbody.innerHTML = pagina.map(r => {
-        const fechaEntrada = r.fechaCreacion
-          ? new Date(r.fechaCreacion).toLocaleTimeString('es-PE', {hour:'2-digit',minute:'2-digit'})
-          : '—';
-
-        // Estado basado en cantidad
-        let estado, badgeClass;
-        if (!r.cantidad || r.cantidad === 0) {
-          estado = 'Activo'; badgeClass = 'badge-activo';
-        } else if (r.cantidad > 100) {
-          estado = 'Excedido'; badgeClass = 'badge-excedido';
-        } else {
-          estado = 'Completado'; badgeClass = 'badge-completado';
-        }
-
-        const tiempoClass = estado === 'Excedido' ? 'td-tiempo-excedido' : '';
-
-        return `<tr>
-          <td class="td-id">${r.idInventario || '—'}</td>
-          <td class="td-nombre">${r.producto || '—'}</td>
-          <td>${r.almacen || r.idAlmacen || '—'}</td>
-          <td>${fechaEntrada}</td>
-          <td>${r.fechaCreacion ? 'En curso' : '—'}</td>
-          <td class="${tiempoClass}">${r.cantidad ? r.cantidad + ' ' + (r.unidadMedida || '') : '—'}</td>
-          <td><span class="badge-estado ${badgeClass}">${estado}</span></td>
-        </tr>`;
-      }).join('');
-
-      document.getElementById('totalRegistros').textContent =
-        `Mostrando ${inicio + 1}–${Math.min(inicio + POR_PAGINA, filtrados.length)} de ${filtrados.length} registros`;
-
-      renderPaginacion(filtrados.length);
-    }
-
-    function renderPaginacion(total) {
-      const totalPag = Math.ceil(total / POR_PAGINA);
-      const cont = document.getElementById('paginacion');
-      if (totalPag <= 1) { cont.innerHTML = ''; return; }
-
-      let html = `<button class="pag-btn" onclick="irPagina(${paginaActual - 1})" ${paginaActual === 1 ? 'disabled' : ''}>‹</button>`;
-      for (let i = 1; i <= Math.min(totalPag, 5); i++) {
-        html += `<button class="pag-btn ${i === paginaActual ? 'activo' : ''}" onclick="irPagina(${i})">${i}</button>`;
-      }
-      if (totalPag > 5) html += `<span style="padding:0 4px;color:var(--gris-400)">…</span><button class="pag-btn" onclick="irPagina(${totalPag})">${totalPag}</button>`;
-      html += `<button class="pag-btn" onclick="irPagina(${paginaActual + 1})" ${paginaActual === totalPag ? 'disabled' : ''}>›</button>`;
-      cont.innerHTML = html;
-    }
-
-    function irPagina(n) {
-      const total = Math.ceil(todosLosRegistros.length / POR_PAGINA);
-      if (n < 1 || n > total) return;
-      paginaActual = n;
-      renderTabla();
-    }
-
-    function exportarPDF()   { alert('Exportar PDF — pendiente de integración.'); }
-    function exportarExcel() { alert('Exportar Excel — pendiente de integración.'); }
-
-    document.getElementById('buscarOperario').addEventListener('input', () => { paginaActual = 1; renderTabla(); });
-    document.getElementById('fechaInicio').addEventListener('change', cargarMovimientos);
-    document.getElementById('fechaFin').addEventListener('change', cargarMovimientos);
-    document.getElementById('selectorAlmacen').addEventListener('change', cargarMovimientos);
-    document.getElementById('btnExportar').addEventListener('click', exportarExcel);
-
-    // Init
-    cargarAlmacenes();
-    cargarMovimientos();
-  </script>
 </body>
 </html>
