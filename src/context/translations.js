@@ -72,6 +72,7 @@ export const translations = {
     productos: {
       pageTitle: "Productos - Procesadora Perú",
       metaDesc: "Catálogo de productos premium de Procesadora Perú SAC.",
+      ourProducts: "Nuestros Productos",
       all: "Todos",
       searchPlaceholder: "Buscar producto específico...",
       exportGrade: "Calidad de Exportación",
@@ -334,6 +335,7 @@ export const translations = {
     productos: {
       pageTitle: "Products - Procesadora Peru",
       metaDesc: "Premium product catalog of Procesadora Peru SAC.",
+      ourProducts: "Our Products",
       all: "All",
       searchPlaceholder: "Search for a specific product...",
       exportGrade: "Export Grade Quality",
