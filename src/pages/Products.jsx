@@ -138,8 +138,18 @@ export default function Products() {
         {/* --- CATÁLOGO GRID (Ahora arriba del Showcase) --- */}
         <div className="max-w-[1280px] mx-auto px-6 md:px-12 mb-16 md:mb-24">
           {isLoading ? (
-            <div className="flex justify-center items-center h-64">
-              <div className="w-12 h-12 border-4 border-[#F4F4F5] border-t-[#954500] rounded-full animate-spin"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="animate-pulse bg-white border border-[#E4E4E7] rounded-xl overflow-hidden flex flex-col h-[400px]">
+                  <div className="h-[240px] w-full bg-gray-200 shrink-0"></div>
+                  <div className="p-5 md:p-6 flex flex-col flex-grow">
+                    <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-5/6 mb-4"></div>
+                    <div className="mt-auto h-4 bg-gray-200 rounded w-1/3"></div>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
             <>
