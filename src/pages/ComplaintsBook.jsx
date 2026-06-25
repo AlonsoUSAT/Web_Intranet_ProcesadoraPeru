@@ -43,25 +43,25 @@ export default function ComplaintsBook() {
     try {
       // 1. Correo para TI (Empresa) - Usa el ID de la primera plantilla
       await emailjs.send(
-        'service_kg4kdep',
-        'template_et6yjtf',
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
           nombre: data.nombre,
           correo: data.correo,
           detalle: data.detalle,
         },
-        '5ZMDxisO3ndxvreps'
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
       // 2. Correo para el CLIENTE (Confirmación) - Usa el ID de la segunda plantilla
       await emailjs.send(
-        'service_kg4kdep',
-        'template_38hq7n2',
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        'template_38hq7n2', // Mantenemos el string por ahora o se puede pasar a variable
         {
           nombre: data.nombre,
           correo: data.correo,
         },
-        '5ZMDxisO3ndxvreps'
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
       alert('¡Enviado con éxito!');
@@ -134,9 +134,11 @@ export default function ComplaintsBook() {
                 {/* Tipo Doc y Número */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:col-span-2 lg:col-span-1">
                   <div className="col-span-1 flex flex-col gap-1.5">
-                    <label className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblTipoDoc}</label>
+                    <label htmlFor="tipoDoc" className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblTipoDoc}</label>
                     <select
+                      id="tipoDoc"
                       {...register('tipoDoc')}
+                      aria-invalid={errors.tipoDoc ? "true" : "false"}
                       className={`w-full border ${errors.tipoDoc ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-sm py-3 md:py-2 px-3 text-base md:text-[14px] bg-white outline-none focus:border-[#954500]`}
                     >
                       <option value="DNI">DNI</option>
@@ -145,10 +147,12 @@ export default function ComplaintsBook() {
                     </select>
                   </div>
                   <div className="col-span-1 sm:col-span-2 flex flex-col gap-1.5">
-                    <label className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblNumero}</label>
+                    <label htmlFor="numero" className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblNumero}</label>
                     <input
+                      id="numero"
                       type="text"
                       placeholder={t.libroReclamaciones.phNumero}
+                      aria-invalid={errors.numero ? "true" : "false"}
                       {...register('numero')}
                       className={`w-full border ${errors.numero ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-sm py-3 md:py-2 px-3 text-base md:text-[14px] bg-white outline-none focus:border-[#954500]`}
                     />
@@ -158,10 +162,12 @@ export default function ComplaintsBook() {
 
                 {/* Nombre Completo */}
                 <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
-                  <label className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblNombre}</label>
+                  <label htmlFor="nombre" className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblNombre}</label>
                   <input
+                    id="nombre"
                     type="text"
                     placeholder={t.libroReclamaciones.phNombre}
+                    aria-invalid={errors.nombre ? "true" : "false"}
                     {...register('nombre')}
                     className={`w-full border ${errors.nombre ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-sm py-3 md:py-2 px-3 text-base md:text-[14px] bg-white outline-none focus:border-[#954500]`}
                   />
@@ -170,10 +176,12 @@ export default function ComplaintsBook() {
 
                 {/* Teléfono */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblTelefono}</label>
+                  <label htmlFor="telefono" className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblTelefono}</label>
                   <input
-                    type="text"
+                    id="telefono"
+                    type="tel"
                     placeholder={t.libroReclamaciones.phTelefono}
+                    aria-invalid={errors.telefono ? "true" : "false"}
                     {...register('telefono')}
                     className={`w-full border ${errors.telefono ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-sm py-3 md:py-2 px-3 text-base md:text-[14px] bg-white outline-none focus:border-[#954500]`}
                   />
@@ -182,10 +190,12 @@ export default function ComplaintsBook() {
 
                 {/* Correo Electrónico */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblCorreo}</label>
+                  <label htmlFor="correo" className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblCorreo}</label>
                   <input
+                    id="correo"
                     type="email"
                     placeholder={t.libroReclamaciones.phCorreo}
+                    aria-invalid={errors.correo ? "true" : "false"}
                     {...register('correo')}
                     className={`w-full border ${errors.correo ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-sm py-3 md:py-2 px-3 text-base md:text-[14px] bg-white outline-none focus:border-[#954500]`}
                   />
@@ -194,10 +204,12 @@ export default function ComplaintsBook() {
 
                 {/* Dirección Domiciliaria */}
                 <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
-                  <label className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblDireccion}</label>
+                  <label htmlFor="direccion" className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblDireccion}</label>
                   <input
+                    id="direccion"
                     type="text"
                     placeholder={t.libroReclamaciones.phDireccion}
+                    aria-invalid={errors.direccion ? "true" : "false"}
                     {...register('direccion')}
                     className={`w-full border ${errors.direccion ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-sm py-3 md:py-2 px-3 text-base md:text-[14px] bg-white outline-none focus:border-[#954500]`}
                   />
@@ -234,9 +246,11 @@ export default function ComplaintsBook() {
                 {/* Inputs */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   <div className="col-span-1 md:col-span-3 flex flex-col gap-1.5">
-                    <label className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblDescBien}</label>
+                    <label htmlFor="descripcionBien" className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblDescBien}</label>
                     <input
+                      id="descripcionBien"
                       type="text"
+                      aria-invalid={errors.descripcionBien ? "true" : "false"}
                       {...register('descripcionBien')}
                       className={`w-full border ${errors.descripcionBien ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-sm py-3 md:py-2 px-3 text-base md:text-[14px] bg-white outline-none focus:border-[#377000]`}
                     />
@@ -244,10 +258,12 @@ export default function ComplaintsBook() {
                   </div>
 
                   <div className="col-span-1 flex flex-col gap-1.5">
-                    <label className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblMonto}</label>
+                    <label htmlFor="monto" className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblMonto}</label>
                     <input
+                      id="monto"
                       type="text"
                       placeholder="0.00"
+                      aria-invalid={errors.monto ? "true" : "false"}
                       {...register('monto')}
                       className={`w-full border ${errors.monto ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-sm py-3 md:py-2 px-3 text-base md:text-[14px] bg-white outline-none focus:border-[#377000]`}
                     />
@@ -294,9 +310,11 @@ export default function ComplaintsBook() {
 
                 {/* Textareas */}
                 <div className="flex flex-col gap-1.5 mt-2 md:mt-4">
-                  <label className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblDetalle}</label>
+                  <label htmlFor="detalle" className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblDetalle}</label>
                   <textarea
+                    id="detalle"
                     placeholder={t.libroReclamaciones.phDetalle}
+                    aria-invalid={errors.detalle ? "true" : "false"}
                     {...register('detalle')}
                     className={`w-full h-[120px] md:h-[100px] border ${errors.detalle ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-sm py-3 px-3 text-base md:text-[14px] bg-white outline-none focus:border-[#DC2626] resize-none`}
                   ></textarea>
@@ -304,9 +322,11 @@ export default function ComplaintsBook() {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblPedido}</label>
+                  <label htmlFor="pedido" className="text-[#554339] text-sm md:text-[13px] font-semibold">{t.libroReclamaciones.lblPedido}</label>
                   <textarea
+                    id="pedido"
                     placeholder={t.libroReclamaciones.phPedido}
+                    aria-invalid={errors.pedido ? "true" : "false"}
                     {...register('pedido')}
                     className={`w-full h-[120px] md:h-[100px] border ${errors.pedido ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-sm py-3 px-3 text-base md:text-[14px] bg-white outline-none focus:border-[#DC2626] resize-none`}
                   ></textarea>
