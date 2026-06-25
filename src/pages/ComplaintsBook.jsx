@@ -39,8 +39,21 @@ export default function ComplaintsBook() {
     }
   });
 
+  const sanitizeInput = (text) => {
+    if (!text) return '';
+    return text
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/script/gi, "[removed]")
+      .trim();
+  };
+
   const onSubmit = async (data) => {
     try {
+      // Aplicar sanitización antes del envío (SEC-003)
+      data.detalle = sanitizeInput(data.detalle);
+      data.pedido = sanitizeInput(data.pedido);
+
       // 1. Correo para TI (Empresa) - Usa el ID de la primera plantilla
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
