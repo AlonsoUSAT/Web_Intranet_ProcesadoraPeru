@@ -34,10 +34,10 @@ const productVarieties = {
 };
 
 export default function Products() {
-  const { t } = useLanguage();
+  // 2. Inicializamos la traducción
+  const { t, language } = useLanguage();
   // B2B-002: Hook de navegación para el flujo de cotización directa
   const navigate = useNavigate();
-
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,7 +61,7 @@ export default function Products() {
   }, []);
 
   const categories = ['Todos', ...new Set(products.map(p => p.category))];
-  
+
   // Derived state - SOLO filtra por categoría para el Grid
   const filteredProducts = products.filter(p => {
     return activeCategory === 'Todos' || p.category === activeCategory;
@@ -79,7 +79,7 @@ export default function Products() {
 
       {/* Main Wrapper */}
       <div className="w-full bg-[#FAFAFA] min-h-screen pt-[30px] pb-16 font-body">
-        
+
         {/* --- CONTROLES SUPERIORES (Filtros y Selector Premium) --- */}
         <div className="max-w-[1280px] mx-auto px-6 md:px-12 mb-12 flex flex-col lg:flex-row justify-between items-center gap-6">
 
@@ -98,7 +98,7 @@ export default function Products() {
                   }
                 }}
                 className={`px-6 py-2.5 rounded-full font-semibold transition-all ${activeCategory === category
-                  ? 'bg-[#954500] text-white' 
+                  ? 'bg-[#954500] text-white'
                   : 'bg-white text-[#554339] border border-gray-200 hover:border-[#954500]'
                   }`}
               >
@@ -203,19 +203,24 @@ export default function Products() {
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[#1B1C1C] text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-sm uppercase tracking-wider shadow-sm">
-                          {product.category}
+                          {t.productos[`cat${product.category}`] || product.category}
                         </div>
                       </div>
 
                       {/* Content */}
                       <div className="p-5 md:p-6 flex flex-col flex-grow">
-                        <h3 className="text-[#1B1C1C] font-heading text-lg md:text-xl font-bold mb-2 group-hover:text-[#954500] transition-colors">{product.name}</h3>
+                        <h3 className="text-[#1B1C1C] font-heading text-lg md:text-xl font-bold mb-2 group-hover:text-[#954500] transition-colors">
+                          {/* Dependiendo del idioma, elige el nombre en ES o EN */}
+                          {language === 'en' ? product.name_en : product.name_es}
+                        </h3>
                         <p className="text-[#554339] font-body text-sm mb-4 line-clamp-2 flex-grow">
-                          {product.description}
+                          {language === 'en' ? product.description_en : product.description_es}
                         </p>
                         <div className="flex items-center gap-2 pt-4 border-t border-[#F4F4F5] mt-auto">
                           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#954500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                          <span className="text-[#71717A] font-body text-[10px] md:text-xs font-semibold uppercase tracking-wider">{product.origin}</span>
+                          <span className="text-[#71717A] font-body text-[10px] md:text-xs font-semibold uppercase tracking-wider">
+                            {language === 'en' ? product.origin_en : product.origin_es}
+                          </span>
                         </div>
                       </div>
                     </motion.div>
@@ -253,7 +258,6 @@ export default function Products() {
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
               {/* Imagen Izquierda */}
               <div className="w-full lg:w-3/5 relative h-[300px] md:h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-sm">
-                
                 {/* PERF-002: Imagen optimizada LCP-critical para el Showcase */}
                 <img
                   src={getOptimizedSrc(productImages[showcaseProduct.id] || showcaseProduct.image, 1200)}
@@ -264,7 +268,7 @@ export default function Products() {
                   fetchpriority="high"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
-                
+
                 <div className="absolute bottom-4 right-4 bg-[#AEF27A] rounded-lg shadow-md px-4 py-2 md:px-5 md:py-3 flex items-center gap-2 z-10">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#377000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -283,10 +287,10 @@ export default function Products() {
                   {t.productos.premiumHarvest}
                 </div>
                 <h1 className="text-[#1B1C1C] font-heading text-[40px] md:text-[48px] lg:text-[56px] font-extrabold leading-[1.1] mb-4 md:mb-6 tracking-tight">
-                  {showcaseProduct.name}
+                  {language === 'en' ? showcaseProduct.name_en : showcaseProduct.name_es}
                 </h1>
                 <p className="text-[#554339] font-body text-base md:text-lg leading-relaxed mb-8">
-                  {showcaseProduct.description} {t.productos.cultivatedText}
+                  {language === 'en' ? showcaseProduct.description_en : showcaseProduct.description_es} {t.productos.cultivatedText}
                 </p>
 
                 {/* Pricing Card */}
@@ -310,8 +314,8 @@ export default function Products() {
                             setSelectedProductId(variedad.id);
                             setQuantity(1);
                           }} className={`py-3 md:py-2.5 rounded-sm font-semibold shadow-sm transition-colors ${showcaseProduct.id.toString() === variedad.id
-                            ? 'border-2 border-[#954500] text-[#954500] bg-white' 
-                            : 'border border-[#D4D4D8] text-[#52525B] bg-white hover:border-[#954500]' 
+                            ? 'border-2 border-[#954500] text-[#954500] bg-white'
+                            : 'border border-[#D4D4D8] text-[#52525B] bg-white hover:border-[#954500]'
                             }`}
                         >
                           {variedad.name}
@@ -426,7 +430,8 @@ export default function Products() {
                   {t.productos.industrialPrecision}
                 </h2>
                 <p className="text-[#554339] font-body text-sm md:text-base leading-relaxed mb-6">
-                  {t.productos.industrialDesc1?.replace('{name}', showcaseProduct.name) || `En Procesadora Perú SAC, nuestras variedades de ${showcaseProduct.name} representan la cúspide de la tecnología agroindustrial.`}
+                  {/* MAGIA AQUÍ: Reemplaza el comodín {name} con el nombre traducido dinámicamente */}
+                  {t.productos.industrialDesc1?.replace('{name}', language === 'en' ? showcaseProduct.name_en : showcaseProduct.name_es) || `En Procesadora Perú SAC, nuestras variedades de ${language === 'en' ? showcaseProduct.name_en : showcaseProduct.name_es} representan la cúspide de la tecnología agroindustrial.`}
                 </p>
                 <p className="text-[#554339] font-body text-sm md:text-base leading-relaxed mb-8 md:mb-10">
                   {t.productos.industrialDesc2}

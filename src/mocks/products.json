@@ -1,50 +1,62 @@
 [
   {
     "id": 1,
-    "name": "Mango",
     "category": "Frutas",
-    "description": "Mango premium seleccionado y procesado bajo estrictos estándares de calidad. Ideal para exportación y la industria alimentaria.",
-    "origin": "Piura, Perú",
-    "image": "/images/mango.jpg"
+    "name_es": "Mango",
+    "name_en": "Mango",
+    "description_es": "Mango premium seleccionado y procesado bajo estrictos estándares de calidad. Ideal para exportación y la industria alimentaria.",
+    "description_en": "Premium mango selected and processed under strict quality standards. Ideal for export and the food industry.",
+    "origin_es": "PIURA, PERÚ",
+    "origin_en": "PIURA, PERU"
   },
   {
     "id": 2,
-    "name": "Maracuyá",
     "category": "Pulpas",
-    "description": "Maracuyá de alto rendimiento y nivel brix ideal. Seleccionado cuidadosamente para la industria de bebidas y exportación.",
-    "origin": "Lambayeque, Perú",
-    "image": "/images/maracuya.jpg"
+    "name_es": "Maracuyá",
+    "name_en": "Passion Fruit",
+    "description_es": "Maracuyá de alto rendimiento y nivel brix ideal. Seleccionado cuidadosamente para pulpas y concentrados.",
+    "description_en": "High-yield passion fruit with an ideal brix level. Carefully selected for pulps and concentrates.",
+    "origin_es": "LAMBAYEQUE, PERÚ",
+    "origin_en": "LAMBAYEQUE, PERU"
   },
   {
     "id": 3,
-    "name": "Fresa",
     "category": "Frutas",
-    "description": "Fresas procesadas en su punto óptimo de maduración para garantizar una textura firme, color vibrante y su característico dulzor natural.",
-    "origin": "Lambayeque, Perú",
-    "image": "/images/fresa.jpg"
+    "name_es": "Fresa",
+    "name_en": "Strawberry",
+    "description_es": "Fresas procesadas en su punto óptimo de maduración para conservar todo su sabor y nutrientes esenciales.",
+    "description_en": "Strawberries processed at their optimum ripening point to preserve all their flavor and essential nutrients.",
+    "origin_es": "LAMBAYEQUE, PERÚ",
+    "origin_en": "LAMBAYEQUE, PERU"
   },
   {
     "id": 4,
-    "name": "Arándano",
     "category": "Frutas",
-    "description": "Arándanos seleccionados rigurosamente por calibre y firmeza. Procesados para mantener intactas sus propiedades antioxidantes.",
-    "origin": "Lambayeque, Perú",
-    "image": "/images/arandano.jpg"
+    "name_es": "Arándano",
+    "name_en": "Blueberry",
+    "description_es": "Arándanos seleccionados rigurosamente por calibre y firmeza, garantizando una excelente vida útil.",
+    "description_en": "Blueberries rigorously selected by size and firmness, ensuring an excellent shelf life.",
+    "origin_es": "LAMBAYEQUE, PERÚ",
+    "origin_en": "LAMBAYEQUE, PERU"
   },
   {
     "id": 5,
-    "name": "Palta",
     "category": "Frutas",
-    "description": "Palta de exportación procesada en su punto exacto de maduración. Solución perfecta y sin mermas para el sector de food service.",
-    "origin": "Lambayeque, Perú",
-    "image": "/images/palta.jpg"
+    "name_es": "Palta Hass",
+    "name_en": "Hass Avocado",
+    "description_es": "Palta Hass cremosa de calidad de exportación, cultivada con precisión para garantizar el porcentaje ideal de materia seca.",
+    "description_en": "Export-grade creamy Hass avocado, grown with precision to guarantee the ideal dry matter percentage.",
+    "origin_es": "LA LIBERTAD, PERÚ",
+    "origin_en": "LA LIBERTAD, PERU"
   },
   {
     "id": 6,
-    "name": "Frijol de Palo",
     "category": "Legumbres",
-    "description": "Grano premium con alta demanda en mercados internacionales. Seleccionado con trazabilidad completa y estándares de calidad.",
-    "origin": "Lambayeque, Perú",
-    "image": "/images/frijol-palo.jpg"
+    "name_es": "Frijol de Palo",
+    "name_en": "Pigeon Peas",
+    "description_es": "Frijol de palo de calidad superior, procesado y seleccionado electrónicamente para eliminar impurezas.",
+    "description_en": "Premium quality pigeon peas, processed and electronically sorted to remove impurities.",
+    "origin_es": "LAMBAYEQUE, PERÚ",
+    "origin_en": "LAMBAYEQUE, PERU"
   }
 ]
