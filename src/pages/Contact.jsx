@@ -1,17 +1,20 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
-// ¡AQUÍ ESTABA EL ERROR! Ruta corregida a un solo nivel (../)
 import { useLanguage } from '../context/LanguageContext';
 
 const InputField = ({ label, register, name, placeholder, error, type = "text", className = "" }) => (
   <div className={`flex flex-col gap-1.5 ${className}`}>
-    {label && <label className="text-[#554339] text-xs font-semibold">{label}</label>}
+    {label && <label htmlFor={name} className="text-[#554339] text-xs font-semibold">{label}</label>}
     <input
+      id={name}
       type={type}
       placeholder={placeholder}
+      aria-invalid={error ? "true" : "false"}
       {...register(name)}
       className={`w-full border ${error ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500] focus:ring-1 focus:ring-[#954500] placeholder:text-[#A1A1AA] transition-all`}
     />
@@ -21,6 +24,9 @@ const InputField = ({ label, register, name, placeholder, error, type = "text", 
 
 export default function Contact() {
   const { t } = useLanguage();
+  // B2B-002: Lee el estado de navegación enviado desde Products.jsx
+  const location = useLocation();
+  const productoDeRouter = location.state?.productoInteres ?? null;
 
   // Esquema Zod (Adentro para poder usar las traducciones 't' en los mensajes de error)
   const contactSchema = z.object({
@@ -55,6 +61,7 @@ export default function Contact() {
     handleSubmit,
     reset,
     watch,
+    setValue,  // B2B-002: necesario para pre-llenar mensaje desde router state
     formState: { errors, isSubmitting }
   } = useForm({
     resolver: zodResolver(contactSchema),
@@ -63,9 +70,24 @@ export default function Contact() {
       productosInteres: [],
       presentacion: [],
       certificaciones: [],
-      unidadVolumen: 'Contenedores'
+      unidadVolumen: 'Contenedores',
+      // B2B-002: pre-rellena el mensaje si viene desde el catálogo de productos
+      mensaje: productoDeRouter
+        ? `Hola, deseo solicitar mayor información y una cotización personalizada para el producto: ${productoDeRouter}.`
+        : ''
     }
   });
+
+  // B2B-002: Sincroniza si el usuario navega entre rutas sin desmontar el componente
+  useEffect(() => {
+    if (productoDeRouter) {
+      setValue(
+        'mensaje',
+        `Hola, deseo solicitar mayor información y una cotización personalizada para el producto: ${productoDeRouter}.`,
+        { shouldValidate: false }
+      );
+    }
+  }, [productoDeRouter, setValue]);
 
   const watchTipoEmpresa = watch('tipoEmpresa');
   const watchImportadoAntes = watch('importadoAntes');
@@ -112,6 +134,7 @@ export default function Contact() {
     <>
       <Helmet>
         <title>{t.contacto.pageTitle}</title>
+        <meta name="description" content="Contacte con Procesadora Perú S.A.C. Solicite información y cotizaciones personalizadas de nuestros productos agroindustriales e IQF de alta calidad para mercados internacionales." />
       </Helmet>
 
       <div className="w-full bg-[#FAFAFA] min-h-screen pt-[30px] pb-0 font-body">
@@ -138,8 +161,8 @@ export default function Contact() {
                   <InputField label={t.contacto.lblWebsite} name="website" register={register} error={errors.website} placeholder={t.contacto.phWebsite} />
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[#554339] text-xs font-semibold">{t.contacto.lblPais}</label>
-                    <select {...register('pais')} className={`w-full border ${errors.pais ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]`}>
+                    <label htmlFor="pais" className="text-[#554339] text-xs font-semibold">{t.contacto.lblPais}</label>
+                    <select id="pais" aria-invalid={errors.pais ? "true" : "false"} {...register('pais')} className={`w-full border ${errors.pais ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]`}>
                       <option value="">{t.contacto.phPais}</option>
                       <option value="US">{t.contacto.paisUS}</option>
                       <option value="EU">{t.contacto.paisEU}</option>
@@ -153,10 +176,10 @@ export default function Contact() {
                   <InputField label={t.contacto.lblEmail} name="email" type="email" register={register} error={errors.email} placeholder={t.contacto.phEmail} />
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[#554339] text-xs font-semibold">{t.contacto.lblTel}</label>
+                    <label htmlFor="telefono" className="text-[#554339] text-xs font-semibold">{t.contacto.lblTel}</label>
                     <div className="flex gap-2">
-                      <input type="text" {...register('prefijo')} className="w-[80px] md:w-[70px] border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-3 text-base md:text-sm bg-white outline-none text-center" />
-                      <input type="text" {...register('telefono')} placeholder={t.contacto.phTel} className={`flex-1 border ${errors.telefono ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]`} />
+                      <input id="prefijo" aria-label="Prefijo internacional" type="tel" {...register('prefijo')} aria-invalid={errors.prefijo ? "true" : "false"} className="w-[80px] md:w-[70px] border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-3 text-base md:text-sm bg-white outline-none text-center" />
+                      <input id="telefono" type="tel" {...register('telefono')} aria-invalid={errors.telefono ? "true" : "false"} placeholder={t.contacto.phTel} className={`flex-1 border ${errors.telefono ? 'border-red-500' : 'border-[#D4D4D8]'} rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]`} />
                     </div>
                     {(errors.prefijo || errors.telefono) && <span className="text-red-500 text-[10px]">{t.contacto.valTelReq}</span>}
                   </div>
@@ -191,7 +214,9 @@ export default function Contact() {
                       </label>
                       {watchTipoEmpresa === 'Otro' && (
                         <input
+                          id="otroTipoEmpresa"
                           type="text"
+                          aria-label="Especifique otro tipo de empresa"
                           {...register('otroTipoEmpresa')}
                           placeholder={t.contacto.phOtroEmp}
                           autoFocus
@@ -220,10 +245,12 @@ export default function Contact() {
 
                   {watchImportadoAntes === 'Si' && (
                     <div className="flex items-center gap-4 pt-1 animate-in fade-in zoom-in duration-200">
-                      <label className="text-[#1B1C1C] text-sm font-medium">{t.contacto.lblCuando}</label>
+                      <label htmlFor="fechaImportacion" className="text-[#1B1C1C] text-sm font-medium">{t.contacto.lblCuando}</label>
                       <input
+                        id="fechaImportacion"
                         type="text"
                         {...register('fechaImportacion')}
+                        aria-invalid={errors.fechaImportacion ? "true" : "false"}
                         placeholder={t.contacto.phCuando}
                         maxLength={5}
                         className="w-[80px] border border-[#D4D4D8] rounded-[4px] py-1.5 px-3 text-sm bg-white outline-none focus:border-[#954500] text-center"
@@ -280,10 +307,10 @@ export default function Contact() {
               <div className="bg-white border border-[#E4E4E7] rounded-lg p-6 md:p-8 shadow-sm flex flex-col gap-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 border-b border-[#E4E4E7] pb-6 md:pb-6">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[#554339] text-xs font-semibold">{t.contacto.lblVol}</label>
+                    <label htmlFor="volumen" className="text-[#554339] text-xs font-semibold">{t.contacto.lblVol}</label>
                     <div className="flex flex-col sm:flex-row gap-2">
-                      <input type="text" {...register('volumen')} placeholder={t.contacto.phVol} className="w-full sm:flex-1 border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]" />
-                      <select {...register('unidadVolumen')} className="w-full sm:w-[150px] border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]">
+                      <input id="volumen" type="text" {...register('volumen')} aria-invalid={errors.volumen ? "true" : "false"} placeholder={t.contacto.phVol} className="w-full sm:flex-1 border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]" />
+                      <select id="unidadVolumen" aria-label="Unidad de volumen" {...register('unidadVolumen')} className="w-full sm:w-[150px] border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]">
                         <option value="Contenedores">{t.contacto.vol1}</option>
                         <option value="Toneladas">{t.contacto.vol2}</option>
                         <option value="Pallets">{t.contacto.vol3}</option>
@@ -294,8 +321,8 @@ export default function Contact() {
                   <InputField label={t.contacto.lblPuerto} name="puerto" register={register} placeholder={t.contacto.phPuerto} />
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[#554339] text-xs font-semibold">{t.contacto.lblIncoterm}</label>
-                    <select {...register('incoterm')} className="w-full border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]">
+                    <label htmlFor="incoterm" className="text-[#554339] text-xs font-semibold">{t.contacto.lblIncoterm}</label>
+                    <select id="incoterm" aria-invalid={errors.incoterm ? "true" : "false"} {...register('incoterm')} className="w-full border border-[#D4D4D8] rounded-[4px] py-3 md:py-2 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500]">
                       <option value="">{t.contacto.phIncoterm}</option>
                       <option value="FOB">FOB</option>
                       <option value="CIF">CIF</option>
@@ -317,10 +344,27 @@ export default function Contact() {
                   </div>
                 </div>
 
+                {/* B2B-002: Banner contextual — visible solo cuando viene desde el catálogo */}
+                {productoDeRouter && (
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    className="flex items-start gap-3 bg-[#FFF8F5] border border-[#E07A5F]/40 rounded-md px-4 py-3 mb-1"
+                  >
+                    <svg className="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#954500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <p className="text-[#554339] font-body text-xs leading-relaxed">
+                      <span className="font-bold text-[#954500]">Producto preseleccionado:</span>{' '}
+                      {productoDeRouter} — El campo de mensaje ha sido pre-llenado.
+                    </p>
+                  </div>
+                )}
+
                 <div>
-                  <label className="text-[#554339] text-xs font-semibold block mb-2 md:mb-1.5">{t.contacto.lblMensaje}</label>
+                  <label htmlFor="mensaje" className="text-[#554339] text-xs font-semibold block mb-2 md:mb-1.5">{t.contacto.lblMensaje}</label>
                   <textarea
+                    id="mensaje"
                     {...register('mensaje')}
+                    aria-invalid={errors.mensaje ? "true" : "false"}
                     placeholder={t.contacto.phMensaje}
                     className="w-full border border-[#D4D4D8] rounded-[4px] py-3 px-4 md:px-3 text-base md:text-sm bg-white outline-none focus:border-[#954500] min-h-[120px] md:min-h-[100px] resize-none"
                   ></textarea>
@@ -330,8 +374,8 @@ export default function Contact() {
 
             {/* Aceptación y Envío */}
             <div className="flex flex-col gap-8 md:gap-6 mt-2 md:mt-4">
-              <label className="flex items-start gap-4 md:gap-3 cursor-pointer">
-                <input type="checkbox" {...register('politica')} className="accent-[#954500] w-6 h-6 md:w-4 md:h-4 mt-0.5 rounded-sm shrink-0" />
+              <label htmlFor="politica" className="flex items-start gap-4 md:gap-3 cursor-pointer">
+                <input id="politica" type="checkbox" aria-invalid={errors.politica ? "true" : "false"} {...register('politica')} className="accent-[#954500] w-6 h-6 md:w-4 md:h-4 mt-0.5 rounded-sm shrink-0" />
                 <span className="text-[#71717A] text-sm md:text-xs leading-relaxed max-w-[800px]">
                   {t.contacto.lblPolitica}
                 </span>
