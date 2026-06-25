@@ -92,8 +92,20 @@ export default function Contact() {
   const watchTipoEmpresa = watch('tipoEmpresa');
   const watchImportadoAntes = watch('importadoAntes');
 
+  const sanitizeInput = (text) => {
+    if (!text) return '';
+    return text
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/script/gi, "[removed]")
+      .trim();
+  };
+
   const onSubmit = async (data) => {
     try {
+      // Aplicar sanitización antes del envío (SEC-003)
+      data.mensaje = sanitizeInput(data.mensaje);
+      
       await new Promise(resolve => setTimeout(resolve, 1500));
       console.log('Datos B2B enviados:', data);
       toast.success(t.contacto.toastSuccess);
