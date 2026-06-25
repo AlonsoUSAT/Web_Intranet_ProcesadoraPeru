@@ -1,18 +1,26 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
+// B2B-002: useNavigate para el flujo de cotización directa
+import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../services/api';
-// 1. Importamos el contexto de idioma
 import { useLanguage } from '../context/LanguageContext';
 
-// Mapeo temporal de imágenes Unsplash para los productos mockeados
+// Mapeo de imágenes Unsplash (Base URLs con tokens de auth para evitar 403)
 const productImages = {
-  1: 'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?q=80&w=800&auto=format&fit=crop', // Mango
-  2: 'https://plus.unsplash.com/premium_photo-1722691370600-18315542e96c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Maracuyá
-  3: 'https://images.unsplash.com/photo-1518635017498-87f514b751ba?q=80&w=800&auto=format&fit=crop', // Fresa
-  4: 'https://images.unsplash.com/photo-1498557850523-fd3d118b962e?q=80&w=800&auto=format&fit=crop', // Arándano
-  5: 'https://images.unsplash.com/photo-1601039641847-7857b994d704?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Palta
-  6: 'https://plus.unsplash.com/premium_photo-1725384940646-ef6aa8c2a091?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'  // Frijol de Palo
+  1: 'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?ixlib=rb-4.1.0', // Mango
+  2: 'https://plus.unsplash.com/premium_photo-1722691370600-18315542e96c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Maracuyá
+  3: 'https://images.unsplash.com/photo-1518635017498-87f514b751ba?ixlib=rb-4.1.0', // Fresa
+  4: 'https://images.unsplash.com/photo-1498557850523-fd3d118b962e?ixlib=rb-4.1.0', // Arándano
+  5: 'https://images.unsplash.com/photo-1601039641847-7857b994d704?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Palta
+  6: 'https://plus.unsplash.com/premium_photo-1725384940646-ef6aa8c2a091?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'  // Frijol de Palo
+};
+
+// PERF-002: Helpers para inyectar parámetros de compresión AVIF/WebP y srcSet responsivo
+const getOptimizedSrc = (baseUrl, width) => baseUrl ? `${baseUrl}&auto=format&fit=crop&q=80&w=${width}` : '';
+const generateSrcSet = (baseUrl) => {
+  if (!baseUrl) return '';
+  return `${getOptimizedSrc(baseUrl, 400)} 400w, ${getOptimizedSrc(baseUrl, 800)} 800w, ${getOptimizedSrc(baseUrl, 1200)} 1200w`;
 };
 
 // Mapeo temporal de variedades para los botones
@@ -26,8 +34,9 @@ const productVarieties = {
 };
 
 export default function Products() {
-  // 2. Inicializamos la traducción
   const { t } = useLanguage();
+  // B2B-002: Hook de navegación para el flujo de cotización directa
+  const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,8 +44,6 @@ export default function Products() {
   // Filters
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [selectedProductId, setSelectedProductId] = useState('all');
-
-  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -102,10 +109,12 @@ export default function Products() {
 
           {/* Selector Premium (Dropdown) */}
           <div className="relative group w-full lg:min-w-[320px] lg:w-auto">
+            <label htmlFor="productSelect" className="sr-only">{t.productos.searchPlaceholder}</label>
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#954500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#954500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </div>
             <select
+              id="productSelect"
               value={selectedProductId}
               onChange={(e) => {
                 setSelectedProductId(e.target.value);
@@ -155,23 +164,33 @@ export default function Products() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.3 }}
-                      className="bg-white border border-[#E4E4E7] rounded-xl overflow-hidden group hover:shadow-xl transition-all cursor-pointer flex flex-col"
+                      className="bg-white border border-[#E4E4E7] rounded-xl overflow-hidden group hover:shadow-xl transition-all cursor-pointer flex flex-col focus:outline-none focus:ring-4 focus:ring-[#954500]/50"
+                      // ACC-002: Atributos WCAG para interactividad con teclado
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setSelectedProductId(product.id.toString());
+                          document.getElementById('showcase-section')?.scrollIntoView({ behavior: 'smooth' });
+                        }
+                      }}
                       onClick={() => {
                         setSelectedProductId(product.id.toString());
-                        setQuantity(1);
                         // MAGIA AQUÍ: Ahora hace scroll hacia abajo, directo al detalle del producto
                         document.getElementById('showcase-section')?.scrollIntoView({ behavior: 'smooth' });
                       }}
                     >
                       {/* Image Container */}
-                      <div className="h-[240px] w-full overflow-hidden relative shrink-0">
-                        <div
-                          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                          style={{
-                            backgroundImage: `url('${productImages[product.id] || product.image}')`,
-                            backgroundPosition: 'center',
-                            backgroundSize: 'cover' 
-                          }}
+                      <div className="h-[240px] w-full overflow-hidden relative shrink-0 bg-[#F6F3F2]">
+                        {/* PERF-002: Imagen optimizada con srcSet en lugar de background-image */}
+                        <img
+                          src={getOptimizedSrc(productImages[product.id] || product.image, 800)}
+                          srcSet={generateSrcSet(productImages[product.id] || product.image)}
+                          sizes="(max-width: 640px) 400px, (max-width: 1024px) 800px, 400px"
+                          alt={product.name}
+                          loading="lazy"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[#1B1C1C] text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-sm uppercase tracking-wider shadow-sm">
                           {product.category}
@@ -225,9 +244,15 @@ export default function Products() {
               {/* Imagen Izquierda */}
               <div className="w-full lg:w-3/5 relative h-[300px] md:h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-sm">
                 
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url('${productImages[showcaseProduct.id] || showcaseProduct.image}')` }}
+                {/* PERF-002: Imagen optimizada LCP-critical para el Showcase */}
+                <img
+                  src={getOptimizedSrc(productImages[showcaseProduct.id] || showcaseProduct.image, 1200)}
+                  srcSet={generateSrcSet(productImages[showcaseProduct.id] || showcaseProduct.image)}
+                  sizes="(max-width: 1024px) 800px, 1200px"
+                  alt={showcaseProduct.name}
+                  loading="eager"
+                  fetchpriority="high"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
                 
                 <div className="absolute bottom-4 right-4 bg-[#AEF27A] rounded-lg shadow-md px-4 py-2 md:px-5 md:py-3 flex items-center gap-2 z-10">
@@ -257,10 +282,10 @@ export default function Products() {
                 {/* Pricing Card */}
                 <div className="bg-[#F6F3F2] rounded-xl p-6 md:p-8 border border-[#E4E4E7]">
                   <div className="flex justify-between items-start mb-8">
-                    <span className="text-[#71717A] font-body text-[10px] md:text-xs font-bold tracking-widest uppercase">{t.productos.wholesale1}<br />{t.productos.wholesale2}</span>
+                    <span className="text-[#52525B] font-body text-[10px] md:text-xs font-bold tracking-widest uppercase">{t.productos.wholesale1}<br />{t.productos.wholesale2}</span>
                     <div className="text-right">
                       <span className="text-[#954500] font-heading text-xl md:text-2xl font-extrabold block">{t.productos.contactPrice}</span>
-                      <span className="text-[#71717A] font-body text-xs">{t.productos.fobCif}</span>
+                      <span className="text-[#52525B] font-body text-xs">{t.productos.fobCif}</span>
                     </div>
                   </div>
 
@@ -285,29 +310,23 @@ export default function Products() {
 
                     </div>
                   </div>
-                  <div className="mb-8">
-                    <span className="text-[#1B1C1C] font-body text-[10px] md:text-xs font-bold tracking-wider uppercase mb-3 block">{t.productos.quantity}</span>
-                    <div className="flex items-center justify-between bg-white border border-[#D4D4D8] rounded-sm py-3 md:py-2 px-4 shadow-sm">
-                      <button
-                        onClick={() => setQuantity(prev => prev > 1 ? prev - 1 : 1)}
-                        className="text-[#954500] font-bold text-2xl md:text-xl hover:scale-110 transition-transform w-10 h-10 flex items-center justify-center cursor-pointer"
-                      >
-                        −
-                      </button>
-
-                      <span className="font-heading font-bold text-lg">{quantity}</span>
-
-                      <button
-                        onClick={() => setQuantity(prev => prev + 1)}
-                        className="text-[#954500] font-bold text-2xl md:text-xl hover:scale-110 transition-transform w-10 h-10 flex items-center justify-center cursor-pointer"
-                      >
-                        +
-                      </button>
-                    </div>
+                  {/* B2B-002: Nota de volumen mínimo — reemplaza el carrito de compras */}
+                  <div className="mb-8 flex items-start gap-3 bg-[#F6F3F2] border border-[#E4E4E7] rounded-md px-4 py-3">
+                    <svg className="shrink-0 mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#954500" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <p className="text-[#554339] font-body text-xs leading-relaxed">
+                      {t.productos.minOrderNote || 'Volumen mínimo de exportación: 1 contenedor (20 ft). Contacte a nuestro equipo para cotización personalizada.'}
+                    </p>
                   </div>
 
-                  <button className="w-full bg-[#954500] text-white font-bold py-4 rounded-sm flex justify-center items-center gap-2 hover:bg-[#7a3800] transition-colors shadow-md text-lg md:text-base">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                  {/* B2B-002: CTA Principal — redirige a /contacto con el producto como estado de router */}
+                  <button
+                    type="button"
+                    onClick={() => navigate('/contacto', {
+                      state: { productoInteres: showcaseProduct.name }
+                    })}
+                    className="w-full bg-[#954500] text-white font-bold py-4 rounded-sm flex justify-center items-center gap-2 hover:bg-[#7a3800] transition-colors shadow-md text-lg md:text-base"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
                     {t.productos.addToQuote}
                   </button>
                 </div>
@@ -371,7 +390,11 @@ export default function Products() {
                     <h3 className="font-heading font-bold text-lg text-[#1B1C1C]">{t.productos.seasonalAvail}</h3>
                   </div>
                   {/* Scrollable container for mobile */}
-                  <div className="w-full overflow-x-auto pb-4 scrollbar-hide">
+                  <div
+                    className="w-full overflow-x-auto pb-4 scrollbar-hide focus:outline-none focus:ring-2 focus:ring-[#954500] rounded-sm"
+                    tabIndex={0}
+                    aria-label={t.productos.seasonalAvail || "Calendario Estacional"}
+                  >
                     <div className="flex justify-between items-center min-w-[500px] w-full">
                       {t.productos.months.map((month, i) => (
                         <div key={month} className="flex flex-col items-center gap-3 min-w-[40px]">
@@ -381,7 +404,7 @@ export default function Products() {
                       ))}
                     </div>
                   </div>
-                  <p className="text-[10px] text-[#A1A1AA] mt-2 italic">{t.productos.seasonalNote}</p>
+                  <p className="text-[10px] text-[#52525B] mt-2 italic">{t.productos.seasonalNote}</p>
                 </div>
               </div>
             </div>
@@ -413,6 +436,8 @@ export default function Products() {
               <div className="w-full lg:w-1/2">
                 <div
                   className="w-full h-[250px] md:h-[350px] rounded-2xl bg-cover bg-center shadow-lg"
+                  role="img"
+                  aria-label="Planta de procesamiento industrial"
                   style={{ backgroundImage: "url('https://images.unsplash.com/photo-1595841696677-647d7c1775a7?q=80&w=1000&auto=format&fit=crop')" }}
                 />
               </div>
