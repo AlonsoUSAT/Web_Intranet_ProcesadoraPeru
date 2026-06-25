@@ -126,7 +126,9 @@ export default function Products() {
               {products
                 .filter(p => activeCategory === 'Todos' || p.category === activeCategory)
                 .map(p => (
-                  <option key={p.id} value={p.id}>{p.name}</option>
+                  <option key={p.id} value={p.id} className="text-gray-800">
+                    {language === 'en' ? p.name_en : p.name_es}
+                  </option>
                 ))}
             </select>
             <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
@@ -449,11 +451,10 @@ export default function Products() {
                 </div>
               </div>
               <div className="w-full lg:w-1/2">
-                <div
-                  className="w-full h-[250px] md:h-[350px] rounded-2xl bg-cover bg-center shadow-lg"
-                  role="img"
-                  aria-label="Planta de procesamiento industrial"
-                  style={{ backgroundImage: "url('https://images.unsplash.com/photo-1595841696677-647d7c1775a7?q=80&w=1000&auto=format&fit=crop')" }}
+                <img
+                  src="https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=800&q=80"
+                  alt="Planta de procesamiento agroindustrial de mangos"
+                  className="w-full h-[250px] md:h-[350px] object-cover rounded-2xl shadow-lg"
                 />
               </div>
             </div>
