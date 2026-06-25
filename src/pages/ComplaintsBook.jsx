@@ -64,10 +64,11 @@ export default function ComplaintsBook() {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
-      alert('¡Enviado con éxito!');
+      toast.success('¡Enviado con éxito!');
+      reset();
     } catch (error) {
       console.error(error);
-      alert('Error al enviar.');
+      toast.error('Error al enviar.');
     }
   };
 
