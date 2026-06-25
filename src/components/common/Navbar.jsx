@@ -45,8 +45,10 @@ export default function Navbar() {
 
         {/* Hamburger Icon */}
         <button
-          className="md:hidden z-50 p-2 text-[#18181B]"
+          className="md:hidden z-50 p-3 min-h-[48px] min-w-[48px] flex justify-center items-center text-[#18181B]"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label="Menú"
+          aria-expanded={isOpen}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             {isOpen ? <path d="M18 6L6 18M6 6l12 12" /> : <path d="M3 12h18M3 6h18M3 18h18" />}
@@ -88,15 +90,17 @@ export default function Navbar() {
           <div className="flex items-center gap-3 border-r border-[#E4E4E7] pr-6">
             <button
               onClick={() => changeLanguage('es')}
-              className={`text-xl transition-all ${language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-80'}`}
+              className={`text-xl transition-all p-3 min-h-[44px] min-w-[44px] flex items-center justify-center ${language === 'es' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-80'}`}
               title="Español"
+              aria-label="Idioma Español"
             >
               🇪🇸
             </button>
             <button
               onClick={() => changeLanguage('en')}
-              className={`text-xl transition-all ${language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-80'}`}
+              className={`text-xl transition-all p-3 min-h-[44px] min-w-[44px] flex items-center justify-center ${language === 'en' ? 'opacity-100 scale-110' : 'opacity-50 hover:opacity-80'}`}
               title="English"
+              aria-label="English Language"
             >
               🇺🇸
             </button>
@@ -133,8 +137,8 @@ export default function Navbar() {
 
               {/* Banderas en Mobile */}
               <div className="flex justify-center gap-6 py-4 border-b border-[#E4E4E7]">
-                <button onClick={() => changeLanguage('es')} className={`text-2xl ${language === 'es' ? 'opacity-100' : 'opacity-50'}`}>🇪🇸</button>
-                <button onClick={() => changeLanguage('en')} className={`text-2xl ${language === 'en' ? 'opacity-100' : 'opacity-50'}`}>🇺🇸</button>
+                <button aria-label="Idioma Español" onClick={() => changeLanguage('es')} className={`text-2xl p-3 min-h-[48px] min-w-[48px] flex items-center justify-center ${language === 'es' ? 'opacity-100' : 'opacity-50'}`}>🇪🇸</button>
+                <button aria-label="English Language" onClick={() => changeLanguage('en')} className={`text-2xl p-3 min-h-[48px] min-w-[48px] flex items-center justify-center ${language === 'en' ? 'opacity-100' : 'opacity-50'}`}>🇺🇸</button>
               </div>
 
              <Link to="/intranet/login" onClick={() => setIsOpen(false)} className="bg-[#954500] text-white font-heading text-lg font-semibold px-6 py-4 mt-4 rounded shadow-sm text-center">
